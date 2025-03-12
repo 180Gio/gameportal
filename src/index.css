@@ -1,7 +1,12 @@
 #root {
-    background-color: #181818;
-    color: white;
+    background-color: #222831;
+    color: #ffffff;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
 }
 
 .header {
@@ -17,10 +22,9 @@
     margin: 50px auto;
     padding: 20px;
     background: transparent;
-    /*box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);*/
     border-radius: 10px;
     text-align: center;
-    border: #ff914d solid 3px;
+    border: #ffffff solid 3px;
 }
 
 .input-group {
@@ -49,8 +53,8 @@
     top: 0;
     left: 10px;
     font-size: 14px;
-    color: #12bee6;
-    background-color: #181818;
+    color: white;
+    background-color: #222831;
 }
 
 .login-container label {
@@ -61,15 +65,14 @@
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
-    border: 1px solid #ff914d;
-    border-radius: 5px;
+    border: 1px solid;
     font-size: 16px;
 }
 
 .btn-primary-orange {
     --bd-custom-bg: #ff914d;
-    --bs-btn-font-weight: 600;
-    --bs-btn-color: var(--bs-white);
+    --bs-btn-font-weight: 300;
+    --bs-btn-color: var(--bs-black);
     --bs-btn-bg: var(--bd-custom-bg);
     --bs-btn-border-color: var(--bd-custom-bg);
     --bs-btn-hover-color: var(--bs-white);
@@ -80,8 +83,31 @@
     --bs-btn-active-border-color: #{shade-color($bd-violet, 20%)};
 }
 
-.modal-content {
-    background-color: #181818;
-    color: white;
-    border: solid 1px #ff914d;
+.credentials-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 80%;
+}
+
+.separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.separator::before,
+.separator::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #ffffff;
+}
+
+.separator:not(:empty)::before {
+    margin-right: .25em;
+}
+
+.separator:not(:empty)::after {
+    margin-left: .25em;
 }

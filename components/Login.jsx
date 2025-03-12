@@ -1,8 +1,8 @@
 import React, {useState} from "react";
-import {loginWithEmailAndPassword} from "../firebase/auth.js";
+import {loginWithEmailAndPassword, loginWithGoogle} from "../firebase/auth.js";
 import Popup from "./Popup.jsx";
 
-export default function Login({setIsRegister}) {
+export default function Login({setRegister}) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -54,11 +54,20 @@ export default function Login({setIsRegister}) {
                             <label htmlFor="password">Password</label>
                         </div>
 
-                        <button type="submit" className={"btn btn-primary-orange"}>Accedi</button>
+                        <button type="submit" className={"btn btn-primary-orange mb-4"}>Accedi</button>
+                        <br/>
+                        <button className="btn btn-info" onClick={() => setRegister(true)}>Non hai un account?
+                            Registrati
+                            qui!
+                        </button>
                     </div>
                 </form>
+                <br/>
                 <div>
-                    <button className="btn btn-primary" onClick={() => setIsRegister(true)}>Accedi</button>
+                    <div className="separator mb-4">Oppure</div>
+                    <button className={"btn btn-light"} onClick={(() => loginWithGoogle())}>
+                        <img src={"./GoogleIcon.ico"} alt={"Google Icon"}/> Continua con Google
+                    </button>
                 </div>
             </div>
             <Popup show={showPopup} setShow={setShowPopup} message={message} type={type}/>
