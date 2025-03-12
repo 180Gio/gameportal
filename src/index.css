@@ -1,57 +1,87 @@
-.header{
-  padding: 10px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+#root {
+    background-color: #181818;
+    color: white;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
-.user-login{
-  width: 100%;
-  max-width: 400px;
-  margin: 50px auto;
-  padding: 20px;
-  background: #fff;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  text-align: center;
-  border: #ff914d solid 1px;
+
+.header {
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.user-login {
+    width: 100%;
+    max-width: 450px;
+    margin: 50px auto;
+    padding: 20px;
+    background: transparent;
+    /*box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);*/
+    border-radius: 10px;
+    text-align: center;
+    border: #ff914d solid 3px;
 }
 
 .input-group {
-  position: relative;
-  margin-bottom: 20px;
+    position: relative;
+    margin-bottom: 20px;
 }
 
 .input-group input {
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    background-color: transparent;
+    color: white;
 }
 
 .input-group label {
-  position: absolute;
-  top: 50%;
-  left: 10px;
-  transform: translateY(-50%);
-  font-size: 16px;
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    font-size: 16px;
 }
 
 .input-group input:focus + label,
 .input-group input:not(:placeholder-shown) + label {
-  top: 0;
-  left: 10px;
-  font-size: 14px;
-  color: #12bee6;
-  background: white;
+    top: 0;
+    left: 10px;
+    font-size: 14px;
+    color: #12bee6;
+    background-color: #181818;
 }
 
 .login-container label {
-  font-weight: bold;
+    font-weight: bold;
 }
+
 .login-container input {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ff914d;
-  border-radius: 0;
-  font-size: 16px;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ff914d;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.btn-primary-orange {
+    --bd-custom-bg: #ff914d;
+    --bs-btn-font-weight: 600;
+    --bs-btn-color: var(--bs-white);
+    --bs-btn-bg: var(--bd-custom-bg);
+    --bs-btn-border-color: var(--bd-custom-bg);
+    --bs-btn-hover-color: var(--bs-white);
+    --bs-btn-hover-bg: #{shade-color($bd-violet, 10%)};
+    --bs-btn-hover-border-color: #{shade-color($bd-violet, 10%)};
+    --bs-btn-active-color: var(--bs-btn-hover-color);
+    --bs-btn-active-bg: #{shade-color($bd-violet, 20%)};
+    --bs-btn-active-border-color: #{shade-color($bd-violet, 20%)};
+}
+
+.modal-content {
+    background-color: #181818;
+    color: white;
+    border: solid 1px #ff914d;
 }
