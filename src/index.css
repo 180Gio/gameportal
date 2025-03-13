@@ -111,3 +111,22 @@
 .separator:not(:empty)::after {
     margin-left: .25em;
 }
+
+.button-row-holder {
+    display: flex;
+    justify-content: center;
+    padding: 0.5rem;
+    gap: 0.5rem;
+    border-radius: 15px;
+}
+
+.button-row-holder button {
+    border-radius: 10px;
+}
+
+.avatar-container {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    justify-content: center;
+}

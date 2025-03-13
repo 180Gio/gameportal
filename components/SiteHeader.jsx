@@ -1,25 +1,58 @@
 import {logout} from "../firebase/auth.js";
+import {Button, ButtonGroup, Image, NavDropdown} from "react-bootstrap";
+import {useState} from "react";
+
 
 export default function SiteHeader({user, setLoggedIn, setUser}) {
+    const [page, setPage] = useState(1);
+
     function doLogout() {
         logout()
             .then(() => {
                 setLoggedIn(false);
                 setUser(null);
-            }).catch(error => {
-            showError(error.code);
-        })
+            })
     }
 
     return (
         <>
             <header className="header">
                 <img src={"/GamePortal.png"} alt="GamePortal" style={{width: "15%"}}/>
+                {user ?
+                    <>
+                        <ButtonGroup className="m-3 button-row-holder">
+                            <Button variant={page === 1 ? "info" : "outline-info"}
+                                    onClick={() => setPage(1)}>Giochi in arrivo</Button>
+                            <Button variant={page === 2 ? "info" : "outline-info"}
+                                    onClick={() => setPage(2)}>News</Button>
+                            <Button variant={page === 3 ? "info" : "outline-info"}
+                                    onClick={() => setPage(3)}>Profilo</Button>
+                            <Button variant={page === 4 ? "info" : "outline-info"}
+                                    onClick={() => setPage(4)}>Cerca gioco</Button>
+                        </ButtonGroup>
+                        <div className={"avatar-container"}>
+                            <p>{user.email}</p>
+                            <NavDropdown
+                                title={
+                                    <Image
+                                        src={"/default_avatar.png"}
+                                        roundedCircle
+                                        alt="Profile"
+                                        width="30"
+                                        height="30"
+                                        className="me-2"
+                                    />
+                                }
+                                id="profile-dropdown"
+                                align="end">
+                                <NavDropdown.Item href="#">Impostazioni</NavDropdown.Item>
+                                <NavDropdown.Item onClick={() => doLogout()}>Esci</NavDropdown.Item>
+                            </NavDropdown>
+                        </div>
+                    </>
+                    : null
+                }
             </header>
-            {user ?
-                <button onClick={() => doLogout()}>Logout</button>
-                : null
-            }
         </>
     )
 }
