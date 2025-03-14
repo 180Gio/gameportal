@@ -1,10 +1,9 @@
 import {logout} from "../firebase/auth.js";
 import {Button, ButtonGroup, Image, NavDropdown} from "react-bootstrap";
-import {useState} from "react";
 
 
-export default function SiteHeader({user, setLoggedIn, setUser}) {
-    const [page, setPage] = useState(1);
+export default function SiteHeader({user, setLoggedIn, setUser, setPage, page}) {
+
 
     function doLogout() {
         logout()
