@@ -130,3 +130,41 @@
     gap: 1rem;
     justify-content: center;
 }
+
+.settings-modal {
+    background-color: #222831;
+    border: white 1px solid;
+    color: #ffffff;
+}
+
+.settings-dialog-modal {
+    max-width: 50%
+}
+
+.settings-inputs-modal {
+    display: flex;
+    justify-content: space-between;
+    margin-right: 50%;
+    align-content: center;
+    margin-left: 1rem
+}
+
+.settings-inputs-modal button {
+
+}
+
+.settings-inputs-modal input {
+    background-color: transparent;
+    padding: 0.5rem;
+    margin-left: 10%;
+    border: 1px solid white;
+    color: white;
+}
+
+/*.settings-inputs-modal label {*/
+/*    position: relative;*/
+/*    top: -40%;*/
+/*    !*left: -10%;*!*/
+/*    !*transform: translateY(-50%);*!*/
+/*    font-size: 16px;*/
+/*}*/

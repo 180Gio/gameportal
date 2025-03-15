@@ -71,7 +71,7 @@ export default function SignIn({register, setRegister, setUser, setLoggedIn}) {
     return (
         <div className="user-login">
             <div className="login-container">
-                <h2>{register ? "Register" : "Login"}</h2>
+                <h2>{register ? "Registrati" : "Accedi"}</h2>
                 <div className={"mt-4"}>
                     <form onSubmit={register ? doRegistration : doLogin}>
                         <div className="input-group">

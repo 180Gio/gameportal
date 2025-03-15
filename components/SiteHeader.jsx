@@ -1,9 +1,12 @@
 import {logout} from "../firebase/auth.js";
 import {Button, ButtonGroup, Image, NavDropdown} from "react-bootstrap";
+import {useState} from "react";
+import SettingsPage from "./pages/SettingsPage.jsx";
 
 
 export default function SiteHeader({user, setLoggedIn, setUser, setPage, page}) {
 
+    const [showSettings, setShowSettings] = useState(false);
 
     function doLogout() {
         logout()
@@ -21,7 +24,7 @@ export default function SiteHeader({user, setLoggedIn, setUser, setPage, page}) 
                     <>
                         <ButtonGroup className="m-3 button-row-holder">
                             <Button variant={page === 1 ? "info" : "outline-info"}
-                                    onClick={() => setPage(1)}>Giochi in arrivo</Button>
+                                    onClick={() => setPage(1)}>Giochi in uscita</Button>
                             <Button variant={page === 2 ? "info" : "outline-info"}
                                     onClick={() => setPage(2)}>News</Button>
                             <Button variant={page === 3 ? "info" : "outline-info"}
@@ -44,13 +47,14 @@ export default function SiteHeader({user, setLoggedIn, setUser, setPage, page}) 
                                 }
                                 id="profile-dropdown"
                                 align="end">
-                                <NavDropdown.Item href="#">Impostazioni</NavDropdown.Item>
+                                <NavDropdown.Item onClick={() => setShowSettings(true)}>Impostazioni</NavDropdown.Item>
                                 <NavDropdown.Item onClick={() => doLogout()}>Esci</NavDropdown.Item>
                             </NavDropdown>
                         </div>
                     </>
                     : null
                 }
+                <SettingsPage setShowSettings={setShowSettings} showSettings={showSettings} user={user}/>
             </header>
         </>
     )
