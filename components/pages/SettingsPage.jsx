@@ -1,8 +1,9 @@
 import {Button, Modal, Toast, ToastContainer} from "react-bootstrap";
 import React, {useState} from "react";
-import {updateNotificationPreferences, updateUsername} from "../../firebase/firestore.js";
+import {deleteUser, updateNotificationPreferences, updateUsername} from "../../firebase/firestore.js";
+import {removeUser} from "../../firebase/auth.js";
 
-export default function SettingsPage({setShowSettings, showSettings, userDb, setUserDb}) {
+export default function SettingsPage({setShowSettings, showSettings, userDb, setUserDb, setLoggedIn}) {
 
     const [toasts, setToasts] = useState([]);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -59,7 +60,16 @@ export default function SettingsPage({setShowSettings, showSettings, userDb, set
     }
 
     function doDeleteAccount() {
-
+        deleteUser(userDb.email)
+            .then(async () => {
+                await removeUser()
+                    .then(() => setLoggedIn(false))
+            })
+            .catch((e) => {
+                console.log(e)
+                addToast("Cancellazione account",
+                    "Si è verificato un errore durante la cancellazione dell'account, riprova più tardi", "danger")
+            })
     }
 
     return (

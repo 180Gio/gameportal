@@ -1,6 +1,7 @@
 import {auth} from "./firebase";
 import {
     createUserWithEmailAndPassword,
+    deleteUser,
     GoogleAuthProvider,
     signInWithEmailAndPassword,
     signInWithPopup
@@ -22,4 +23,11 @@ export async function loginWithGoogle() {
 
 export function logout() {
     return auth.signOut();
+}
+
+export async function removeUser() {
+    let user = auth.currentUser
+    if (user) {
+        await deleteUser(user)
+    }
 }

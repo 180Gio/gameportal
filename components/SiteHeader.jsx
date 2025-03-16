@@ -51,7 +51,7 @@ export default function SiteHeader({setLoggedIn, setPage, page, userDb, setUserD
                             </NavDropdown>
                         </div>
                         <SettingsPage setShowSettings={setShowSettings} showSettings={showSettings}
-                                      userDb={userDb} setUserDb={setUserDb}/>
+                                      userDb={userDb} setUserDb={setUserDb} setLoggedIn={setLoggedIn}/>
                     </>
                     : null
                 }

@@ -1,5 +1,5 @@
 import {db} from "./firebase.js"
-import {addDoc, collection, getDocs, query, updateDoc, where} from "firebase/firestore"
+import {addDoc, collection, deleteDoc, getDocs, query, updateDoc, where} from "firebase/firestore"
 
 async function createUser(email) {
     let user = {
@@ -65,4 +65,11 @@ export async function updateFavoriteGames(email, favoriteGames) {
         await updateDoc(user.ref, {favoriteGames: favoriteGames});
     }
     return getUser(email)
+}
+
+export async function deleteUser(email) {
+    let userRef = await getUserRef(email);
+    if (userRef) {
+        await deleteDoc(userRef.ref);
+    }
 }
