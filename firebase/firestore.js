@@ -14,7 +14,7 @@ async function createUser(email) {
 async function getUserRef(email) {
     const userQuery = query(collection(db, "users"), where("email", "==", email));
     const userList = await getDocs(userQuery);
-    let userRef = null;
+    let userRef;
     if (!userList.empty) {
         userRef = userList.docs[0];
     } else {
