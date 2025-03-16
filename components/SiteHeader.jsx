@@ -1,12 +1,24 @@
 import {logout} from "../firebase/auth.js";
 import {Button, ButtonGroup, Image, NavDropdown} from "react-bootstrap";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import SettingsPage from "./pages/SettingsPage.jsx";
+import {getUsername} from "../firebase/firestoreUtil.js";
 
 
 export default function SiteHeader({user, setLoggedIn, setUser, setPage, page}) {
 
     const [showSettings, setShowSettings] = useState(false);
+    const [username, setUsername] = useState(null);
+
+    useEffect(() => {
+        if (user) {
+            let initUsername = async () => await getUsername(user.email)
+            initUsername().then(username => {
+                    setUsername(username);
+                }
+            )
+        }
+    }, [user])
 
     function doLogout() {
         logout()
@@ -33,7 +45,7 @@ export default function SiteHeader({user, setLoggedIn, setUser, setPage, page}) 
                                     onClick={() => setPage(4)}>Cerca gioco</Button>
                         </ButtonGroup>
                         <div className={"avatar-container"}>
-                            <p>{user.email}</p>
+                            <p>{username}</p>
                             <NavDropdown
                                 title={
                                     <Image
@@ -54,7 +66,8 @@ export default function SiteHeader({user, setLoggedIn, setUser, setPage, page}) 
                     </>
                     : null
                 }
-                <SettingsPage setShowSettings={setShowSettings} showSettings={showSettings} user={user}/>
+                <SettingsPage setShowSettings={setShowSettings} showSettings={showSettings} user={user}
+                              username={username} setUsername={setUsername}/>
             </header>
         </>
     )
