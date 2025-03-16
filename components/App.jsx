@@ -1,5 +1,5 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import SiteHeader from "./SiteHeader.jsx";
 import SignIn from "./SignIn.jsx";
 import UpcomingGamesPage from "./pages/UpcomingGamesPage.jsx";
@@ -8,12 +8,16 @@ import ProfilePage from "./pages/ProfilePage.jsx";
 import GameFinderPage from "./pages/GameFinderPage.jsx";
 
 export default function App() {
-    const [register, setRegister] = useState(true);
-
-    const [user, setUser] = useState(null);
     const [loggedIn, setLoggedIn] = useState(false);
+    const [userDb, setUserDb] = useState(null);
 
     const [page, setPage] = useState(1);
+
+    useEffect(() => {
+        if (!loggedIn) {
+            setUserDb(null)
+        }
+    }, [loggedIn])
 
     function renderPage() {
         switch (page) {
@@ -31,11 +35,10 @@ export default function App() {
 
     return (
         <>
-            <SiteHeader user={user} setUser={setUser} setLoggedIn={setLoggedIn} setPage={setPage} page={page}/>
+            <SiteHeader setLoggedIn={setLoggedIn} setPage={setPage} page={page} userDb={userDb}/>
             {loggedIn ? renderPage() :
                 <div className={"credentials-wrapper"}>
-                    <SignIn setRegister={setRegister} setUser={setUser} setLoggedIn={setLoggedIn}
-                            register={register}/>
+                    <SignIn setLoggedIn={setLoggedIn} setUserDb={setUserDb}/>
                 </div>
             }
         </>

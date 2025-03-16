@@ -1,8 +1,11 @@
 import React, {useState} from "react";
 import {loginWithEmailAndPassword, loginWithGoogle, registerWithEmailAndPassword} from "../firebase/auth.js";
 import Popup from "./Popup.jsx";
+import {getUser} from "../firebase/firestore.js";
 
-export default function SignIn({register, setRegister, setUser, setLoggedIn}) {
+export default function SignIn({setLoggedIn, setUserDb}) {
+    const [isRegister, setIsRegister] = useState(true);
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -17,18 +20,13 @@ export default function SignIn({register, setRegister, setUser, setLoggedIn}) {
         setShowPopup(true);
     }
 
-    function handleLogin(user) {
+    async function handleLogin(user) {
         setType("success")
         setMessage("Login avvenuto con successo")
         setShowPopup(true);
-        setUser(user)
+        await getUser(user.email)
+            .then(userDb => setUserDb(userDb))
         setLoggedIn(true)
-    }
-
-    async function doGoogleLogin() {
-        await loginWithGoogle()
-            .then(user => handleLogin(user))
-            .catch(error => showError(error.code))
     }
 
     function showError(error) {
@@ -68,12 +66,18 @@ export default function SignIn({register, setRegister, setUser, setLoggedIn}) {
             .catch((error) => showError(error.code));
     }
 
+    async function doGoogleLogin() {
+        await loginWithGoogle()
+            .then(user => handleLogin(user))
+            .catch(error => showError(error.code))
+    }
+
     return (
         <div className="user-login">
             <div className="login-container">
-                <h2>{register ? "Registrati" : "Accedi"}</h2>
+                <h2>{isRegister ? "Registrati" : "Accedi"}</h2>
                 <div className={"mt-4"}>
-                    <form onSubmit={register ? doRegistration : doLogin}>
+                    <form onSubmit={isRegister ? doRegistration : doLogin}>
                         <div className="input-group">
                             <input type="email" id="email" name="email"
                                    onChange={(e) => setEmail(e.target.value)}/>
@@ -86,7 +90,7 @@ export default function SignIn({register, setRegister, setUser, setLoggedIn}) {
                             <label htmlFor="password">Password</label>
                         </div>
 
-                        {register ?
+                        {isRegister ?
                             <div className="input-group">
                                 <input type="password" id="confirm-password" name="confirm-password"
                                        onChange={(e) => setConfirmPassword(e.target.value)}/>
@@ -95,12 +99,12 @@ export default function SignIn({register, setRegister, setUser, setLoggedIn}) {
                             : null}
 
                         <button type="submit"
-                                className={"btn btn-primary-orange mb-4"}>{register ? "Registrati" : "Accedi"}</button>
+                                className={"btn btn-primary-orange mb-4"}>{isRegister ? "Registrati" : "Accedi"}</button>
                         <br/>
 
                     </form>
-                    <button className="btn btn-info" onClick={() => setRegister(!register)}>
-                        {register ? "Hai già un account? Accedi qui!" : "Non hai un account? Registrati qui!"}
+                    <button className="btn btn-info" onClick={() => setIsRegister(!isRegister)}>
+                        {isRegister ? "Hai già un account? Accedi qui!" : "Non hai un account? Registrati qui!"}
                     </button>
                 </div>
                 <br/>

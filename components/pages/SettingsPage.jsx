@@ -1,39 +1,24 @@
 import {Button, Modal, Toast, ToastContainer} from "react-bootstrap";
-import React, {useEffect, useState} from "react";
-import {updateUsername} from "../../firebase/firestoreUtil.js";
+import React, {useState} from "react";
 
-export default function SettingsPage({setShowSettings, showSettings, user, username, setUsername}) {
+export default function SettingsPage({setShowSettings, showSettings, userDb}) {
 
     const [toasts, setToasts] = useState([]);
-    const [notificationPreferences, setNotificationPreferences] = useState(undefined);
 
-    async function initModal() {
-        async function initUsername() {
-            let usernameElement = document.getElementById("username");
-            usernameElement.value = username;
-        }
+    function initModal() {
+        let usernameElement = document.getElementById("username");
+        usernameElement.value = userDb.get("username");
 
-        async function initPreferences() {
-            if (!notificationPreferences) {
-                setNotificationPreferences({email: user.email, newsNotifications: false, gameOut: false})
-            }
-            console.log(notificationPreferences);
-            let newsNotificationElement = document.getElementById("games-news");
-            let gameOutNotificationElement = document.getElementById("games-out");
-            gameOutNotificationElement.checked = notificationPreferences.gameOut;
-            newsNotificationElement.checked = notificationPreferences.newsNotifications;
-        }
-
-        Promise.all([initUsername(), initPreferences()])
-            .catch(() => {
-                addToast("Si è verificato un errore nella precompilazione dei dati", "danger")
-            });
+        let newsNotificationElement = document.getElementById("games-news");
+        let gameOutNotificationElement = document.getElementById("games-out");
+        gameOutNotificationElement.checked = userDb.get("notificationPreferences").gameOut;
+        newsNotificationElement.checked = userDb.get("notificationPreferences").news;
     }
 
-    function addToast(message, type) {
+    function addToast(title, message, type) {
         const delay = 5000;
         const id = toasts.length + 1;
-        const toast = {id: id, message: message, type: type, delay: delay};
+        const toast = {id: id, title: title, message: message, type: type, delay: delay};
         setToasts([...toasts, toast]);
         setTimeout(() => {
             removeToast(id);
@@ -44,18 +29,25 @@ export default function SettingsPage({setShowSettings, showSettings, user, usern
         setToasts((prevToasts) => prevToasts.filter(toast => toast.id !== id));
     }
 
-    useEffect(() => {
-        if (user) {
-            updateUsername(user.email, username)
-                .then(() => addToast("Salvataggio completato con successo!", "success"))
-                .catch(() => addToast("Si è verificato un errore, riprova più tardi", "danger"));
-        }
-    }, [username])
+    // useEffect(() => {
+    //     if (user) {
+    //         updateUsername(user.email, username)
+    //             .then(() => addToast("Salvataggio username", "Username salvato con successo", "success"))
+    //             .catch(() => addToast("Salvataggio username", "Si è verificato un errore nel salvataggio dell'username, riprova più tardi", "danger"));
+    //     }
+    // }, [username])
+    // useEffect(() => {
+    //     if (user) {
+    //         updateNotificationPreferences(user.email, notificationPreferences)
+    //             .then(() => addToast("Salvataggio preferenze notifiche", "Preferenze sulle notifiche salvate correttamente", "success"))
+    //             .catch(() => addToast("Salvataggio preferenze notifiche", "Si è verificato un errore nel salvataggio delle preferenze sulle notifiche, riprova più tardi", "danger"));
+    //     }
+    // }, [notificationPreferences])
 
-    function onSubmit(e) {
-        e.preventDefault()
-        setUsername(e.target.elements.username.value)
-    }
+    // function onSubmit(e) {
+    //     e.preventDefault()
+    //     setUsername(e.target.elements.username.value)
+    // }
 
     return (
         <>
@@ -82,7 +74,10 @@ export default function SettingsPage({setShowSettings, showSettings, user, usern
                         <div className={"row"}>
                             <div className="form-check form-switch d-flex flex-row-reverse justify-content-between">
                                 <input className="form-check-input" type="checkbox" role="switch"
-                                       id="games-news"/>
+                                       id="games-news"
+                                    // onChange={(e) =>
+                                    //     setNotificationPreferences({newsNotifications: e.target.checked})}/>
+                                />
                                 <label className="form-check-label" htmlFor="games-news">Notizie sui tuoi videogiochi
                                     preferiti</label>
                             </div>
@@ -91,7 +86,10 @@ export default function SettingsPage({setShowSettings, showSettings, user, usern
                             <div className="form-check form-switch d-flex flex-row-reverse justify-content-between">
                                 <input className="form-check-input" type="checkbox"
                                        role="switch"
-                                       id="games-out"/>
+                                       id="games-out"
+                                    // onChange={(e) =>
+                                    //     setNotificationPreferences({gameOut: e.target.checked})}/>
+                                />
                                 <label className="form-check-label" htmlFor="games-out">Uno dei tuoi giochi preferiti è
                                     stato rilasciato</label>
                             </div>
@@ -126,7 +124,7 @@ export default function SettingsPage({setShowSettings, showSettings, user, usern
                            autohide={true}
                            bg={toast.type} delay={toast.delay} key={toast.id}>
                         <Toast.Header>
-                            <strong className="me-auto">Salvataggio Username</strong>
+                            <strong className="me-auto">{toast.title}</strong>
                         </Toast.Header>
                         <Toast.Body>{toast.message}</Toast.Body>
                     </Toast>

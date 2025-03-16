@@ -6,6 +6,7 @@ import {
     signInWithPopup
 } from "firebase/auth";
 
+
 export async function registerWithEmailAndPassword(email, password) {
     return createUserWithEmailAndPassword(auth, email, password);
 }
