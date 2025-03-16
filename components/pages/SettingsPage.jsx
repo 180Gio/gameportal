@@ -5,6 +5,7 @@ import {updateNotificationPreferences, updateUsername} from "../../firebase/fire
 export default function SettingsPage({setShowSettings, showSettings, userDb, setUserDb}) {
 
     const [toasts, setToasts] = useState([]);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     function initModal() {
         let usernameElement = document.getElementById("username");
@@ -57,6 +58,10 @@ export default function SettingsPage({setShowSettings, showSettings, userDb, set
             })
     }
 
+    function doDeleteAccount() {
+
+    }
+
     return (
         <>
             <Modal show={showSettings} onHide={() => setShowSettings(false)} animation={true} onEnter={initModal}
@@ -67,26 +72,35 @@ export default function SettingsPage({setShowSettings, showSettings, userDb, set
                 <Modal.Body>
                     <h5>Utente</h5>
                     <form onSubmit={(e) => onSubmit(e)}>
-                        <div className={"settings-inputs-modal"}>
-                            <div className="form-group">
-                                <label htmlFor="username">Username</label>
-                                <input type="text" className="form-control" id="username"/>
+                        <div className={"settings-modal-container mt-4"}>
+                            <div className={"container"}>
+                                <div className={"row d-flex align-items-start"}>
+                                    <div className={"col-md-6"}>
+                                        <div className="d-flex align-items-center input-group">
+                                            <input type="text" id="username"/>
+                                            <label htmlFor="username">Username</label>
+                                        </div>
+                                    </div>
+                                    <div className={"col-md-6 d-flex justify-content-end text"}>
+                                        <button type="submit" className="btn btn-lg btn-info">Salva
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
-                            <button type="submit" className="btn btn-info">Salva
-                            </button>
                         </div>
                     </form>
                     <hr className={"my-4"}/>
                     <h5>Notifiche</h5>
                     <div className={"container-fluid"}>
                         <div className={"row"}>
-                            <div className="form-check form-switch d-flex flex-row-reverse justify-content-between">
+                            <div className="form-check form-switch
+                            d-flex flex-row-reverse align-items-center justify-content-between">
                                 <input className="form-check-input" type="checkbox" role="switch"
                                        id="games-news"
                                        onChange={(e) =>
                                            handleNotificationSettings({news: e.target.checked})}/>
-                                <label className="form-check-label" htmlFor="games-news">Notizie sui tuoi videogiochi
-                                    preferiti</label>
+                                <label className="form-check-label" htmlFor="games-news">Notizie sui tuoi
+                                    videogiochi preferiti</label>
                             </div>
                         </div>
                         <div className={"row"}>
@@ -103,21 +117,10 @@ export default function SettingsPage({setShowSettings, showSettings, userDb, set
                     </div>
                     <hr/>
                     <h5>Zona pericolosa</h5>
-                    <div className={"container-fluid mt-3"}>
-                        <div className={"row"}>
-                            <div className={"col-md-3 d-flex justify-content-center align-content-center"}>
-                                <button
-                                    className="btn btn-danger">Elimina
-                                    il tuo account
-                                </button>
-                            </div>
-                            <div className={"col d-flex justify-content-center align-content-center"}>
-                                <div className="alert alert-danger" role="alert">
-                                    <b>Attenzione!</b> Una volta eliminato, il tuo account
-                                    non sarà recuperabile
-                                </div>
-                            </div>
-                        </div>
+                    <div className={"container mt-3"}>
+                        <button className="btn btn-md btn-danger" onClick={() => setShowDeleteModal(true)}>Elimina il
+                            tuo account
+                        </button>
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
@@ -136,6 +139,21 @@ export default function SettingsPage({setShowSettings, showSettings, userDb, set
                     </Toast>
                 ))}
             </ToastContainer>
+
+            <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)} centered
+                   contentClassName={"delete-modal"} dialogClassName={"settings-dialog-modal"}>
+                <Modal.Header className={"delete-modal-header"} closeButton closeVariant={"white"}>
+                    <Modal.Title>Attenzione</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    Una volta eliminato, l'account e tutti i dati associati non saranno più recuperabili. Vuoi procedere
+                    con la cancellazione?
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>Annulla</Button>
+                    <Button variant="danger" onClick={() => doDeleteAccount()}>Elimina</Button>
+                </Modal.Footer>
+            </Modal>
         </>
     )
 }
