@@ -4,7 +4,7 @@ import {useState} from "react";
 import SettingsPage from "./pages/SettingsPage.jsx";
 
 
-export default function SiteHeader({setLoggedIn, setPage, page, userDb}) {
+export default function SiteHeader({setLoggedIn, setPage, page, userDb, setUserDb}) {
 
     const [showSettings, setShowSettings] = useState(false);
 
@@ -32,7 +32,7 @@ export default function SiteHeader({setLoggedIn, setPage, page, userDb}) {
                                     onClick={() => setPage(4)}>Cerca gioco</Button>
                         </ButtonGroup>
                         <div className={"avatar-container"}>
-                            <p>{userDb.get("username")}</p>
+                            <p>{userDb.username}</p>
                             <NavDropdown
                                 title={
                                     <Image
@@ -50,10 +50,11 @@ export default function SiteHeader({setLoggedIn, setPage, page, userDb}) {
                                 <NavDropdown.Item onClick={() => doLogout()}>Esci</NavDropdown.Item>
                             </NavDropdown>
                         </div>
+                        <SettingsPage setShowSettings={setShowSettings} showSettings={showSettings}
+                                      userDb={userDb} setUserDb={setUserDb}/>
                     </>
                     : null
                 }
-                <SettingsPage setShowSettings={setShowSettings} showSettings={showSettings} userDb={userDb}/>
             </header>
         </>
     )

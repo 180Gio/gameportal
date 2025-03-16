@@ -35,7 +35,7 @@ export default function App() {
 
     return (
         <>
-            <SiteHeader setLoggedIn={setLoggedIn} setPage={setPage} page={page} userDb={userDb}/>
+            <SiteHeader setLoggedIn={setLoggedIn} setPage={setPage} page={page} userDb={userDb} setUserDb={setUserDb}/>
             {loggedIn ? renderPage() :
                 <div className={"credentials-wrapper"}>
                     <SignIn setLoggedIn={setLoggedIn} setUserDb={setUserDb}/>

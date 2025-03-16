@@ -1,18 +1,19 @@
 import {Button, Modal, Toast, ToastContainer} from "react-bootstrap";
 import React, {useState} from "react";
+import {updateNotificationPreferences, updateUsername} from "../../firebase/firestore.js";
 
-export default function SettingsPage({setShowSettings, showSettings, userDb}) {
+export default function SettingsPage({setShowSettings, showSettings, userDb, setUserDb}) {
 
     const [toasts, setToasts] = useState([]);
 
     function initModal() {
         let usernameElement = document.getElementById("username");
-        usernameElement.value = userDb.get("username");
+        usernameElement.value = userDb.username;
 
         let newsNotificationElement = document.getElementById("games-news");
         let gameOutNotificationElement = document.getElementById("games-out");
-        gameOutNotificationElement.checked = userDb.get("notificationPreferences").gameOut;
-        newsNotificationElement.checked = userDb.get("notificationPreferences").news;
+        gameOutNotificationElement.checked = userDb.notificationPreferences.gameOut;
+        newsNotificationElement.checked = userDb.notificationPreferences.news;
     }
 
     function addToast(title, message, type) {
@@ -29,25 +30,32 @@ export default function SettingsPage({setShowSettings, showSettings, userDb}) {
         setToasts((prevToasts) => prevToasts.filter(toast => toast.id !== id));
     }
 
-    // useEffect(() => {
-    //     if (user) {
-    //         updateUsername(user.email, username)
-    //             .then(() => addToast("Salvataggio username", "Username salvato con successo", "success"))
-    //             .catch(() => addToast("Salvataggio username", "Si è verificato un errore nel salvataggio dell'username, riprova più tardi", "danger"));
-    //     }
-    // }, [username])
-    // useEffect(() => {
-    //     if (user) {
-    //         updateNotificationPreferences(user.email, notificationPreferences)
-    //             .then(() => addToast("Salvataggio preferenze notifiche", "Preferenze sulle notifiche salvate correttamente", "success"))
-    //             .catch(() => addToast("Salvataggio preferenze notifiche", "Si è verificato un errore nel salvataggio delle preferenze sulle notifiche, riprova più tardi", "danger"));
-    //     }
-    // }, [notificationPreferences])
 
-    // function onSubmit(e) {
-    //     e.preventDefault()
-    //     setUsername(e.target.elements.username.value)
-    // }
+    function onSubmit(e) {
+        e.preventDefault()
+        updateUsername(userDb.email, e.target.elements.username.value).then(userDb => {
+            setUserDb(userDb);
+            addToast("Salvataggio username", "L'username è stato salvato correttamente", "success")
+        })
+            .catch(() => {
+                addToast("Salvataggio username", "Si è verificato un errore " +
+                    "nel salvataggio dell'username, riprova più tardi", "danger")
+            })
+    }
+
+    function handleNotificationSettings(notificationPreferences) {
+        let notificationPreferencesUpdated = {...userDb.notificationPreferences, ...notificationPreferences};
+        updateNotificationPreferences(userDb.email, notificationPreferencesUpdated).then(
+            userDb => {
+                setUserDb(userDb)
+                addToast("Salvataggio preferenze di notifica", "Preferenze di notifica " +
+                    "salvate correttamente", "success")
+            })
+            .catch(() => {
+                addToast("Salvataggio preferenze di notifica", "Si è verificato un errore " +
+                    "nel salvataggio delle preferenze di notifica, riprova più tardi", "danger");
+            })
+    }
 
     return (
         <>
@@ -75,9 +83,8 @@ export default function SettingsPage({setShowSettings, showSettings, userDb}) {
                             <div className="form-check form-switch d-flex flex-row-reverse justify-content-between">
                                 <input className="form-check-input" type="checkbox" role="switch"
                                        id="games-news"
-                                    // onChange={(e) =>
-                                    //     setNotificationPreferences({newsNotifications: e.target.checked})}/>
-                                />
+                                       onChange={(e) =>
+                                           handleNotificationSettings({news: e.target.checked})}/>
                                 <label className="form-check-label" htmlFor="games-news">Notizie sui tuoi videogiochi
                                     preferiti</label>
                             </div>
@@ -87,9 +94,8 @@ export default function SettingsPage({setShowSettings, showSettings, userDb}) {
                                 <input className="form-check-input" type="checkbox"
                                        role="switch"
                                        id="games-out"
-                                    // onChange={(e) =>
-                                    //     setNotificationPreferences({gameOut: e.target.checked})}/>
-                                />
+                                       onChange={(e) =>
+                                           handleNotificationSettings({gameOut: e.target.checked})}/>
                                 <label className="form-check-label" htmlFor="games-out">Uno dei tuoi giochi preferiti è
                                     stato rilasciato</label>
                             </div>

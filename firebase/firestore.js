@@ -11,51 +11,58 @@ async function createUser(email) {
     return await addDoc(collection(db, "users"), user);
 }
 
-export async function getUser(email) {
-    let user = undefined;
-    await getDocs(query(collection(db, "users"), where("email", "==", email))).then(userList => {
-        if (userList && !userList.empty) {
-            user = userList.docs[0]
-        }
-    })
-    if (!user) {
-        user = createUser(email)
+async function getUserRef(email) {
+    const userQuery = query(collection(db, "users"), where("email", "==", email));
+    const userList = await getDocs(userQuery);
+    let userRef = null;
+    if (!userList.empty) {
+        userRef = userList.docs[0];
+    } else {
+        userRef = createUser(email)
     }
-    return user;
+    return userRef;
+}
+
+export async function getUser(email) {
+    let userRef = await getUserRef(email);
+    return {id: userRef.id, ...userRef.data()}
 }
 
 export async function getUsername(email) {
     let user = await getUser(email);
-    return user.get("username")
+    return user.username;
 }
 
 export async function getNotificationPreferences(email) {
     let user = await getUser(email);
-    return user.get("notificationPreferences")
+    return user.notificationPreferences
 }
 
 export async function getFavoriteGames(email) {
     let user = await getUser(email);
-    return user.get("favoriteGames")
+    return user.favoriteGames
 }
 
 export async function updateUsername(email, username) {
-    let user = await getUser(email);
+    let user = await getUserRef(email);
     if (user) {
-        await updateDoc(user.ref, {username: username})
+        await updateDoc(user.ref, {username: username});
     }
+    return getUser(email);
 }
 
 export async function updateNotificationPreferences(email, notificationPreferences) {
-    let user = await getUser(email);
+    let user = await getUserRef(email);
     if (user) {
         await updateDoc(user.ref, {notificationPreferences: notificationPreferences});
     }
+    return getUser(email)
 }
 
 export async function updateFavoriteGames(email, favoriteGames) {
-    let user = await getUser(email);
+    let user = await getUserRef(email);
     if (user) {
         await updateDoc(user.ref, {favoriteGames: favoriteGames});
     }
+    return getUser(email)
 }
