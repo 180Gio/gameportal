@@ -1,8 +1,10 @@
-#root {
+body {
     background-color: #222831;
     color: #ffffff;
+}
+
+#root {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    height: 100%;
     position: absolute;
     left: 0;
     width: 100%;
@@ -12,9 +14,6 @@
 
 .header {
     padding: 10px 20px;
-    /*display: flex;*/
-    /*justify-content: space-between;*/
-    /*align-items: center;*/
 }
 
 .user-login {
@@ -201,4 +200,16 @@
 
 .delete-modal-header button {
     color: white;
+}
+
+.card-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px
+}
+
+.card-wrapper {
+    flex: 1 1 50%;
+    max-width: 40%;
 }
