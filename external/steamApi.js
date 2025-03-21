@@ -6,14 +6,22 @@ export async function getSteamID(username) {
 }
 
 export async function getSteamAppInfo(steamAppName) {
-    //TODO get steam app id from name
-    let response = await fetch("/steam/appdetails?appids={APP_ID}")
-    return (await response.json()).response;
+    let steamAppId = getSteamAppId(steamAppName);
+    if (steamAppId) {
+        return await fetch("/store/appdetails?appids=" + steamAppId)
+            .then(response => response.text()
+                .then((data) => JSON.parse(data)))
+            .catch(console.error)
+            .catch(console.error);
+    }
 }
 
-async function getSteamAppId(steamAppName) {
-    let response = await fetch("/steam/appdetails?appids={APP_ID}")
-    return (await response.json()).response;
+export function getSteamAppId(steamAppName) {
+    return steamDataMap.getGameId(steamAppName);
+}
+
+export function getSteamAppName(steamAppId) {
+    return steamDataMap.getGameName(steamAppId);
 }
 
 async function getSteamData() {
@@ -36,13 +44,12 @@ class SteamDataSingleton {
     }
 
     getGameName(appId) {
-        return this.map.values().find(gameObj => gameObj.appid === appId)
+        return this.map.values().find(gameObj => gameObj.appid === appId)?.name
     }
 
     getGameId(gameName) {
-        return this.map.values().find(gameObj => gameObj.name === gameName)
+        return this.map.values().find(gameObj => gameObj.name === gameName)?.appid
     }
 }
 
 const steamDataMap = new SteamDataSingleton();
-export {steamDataMap}

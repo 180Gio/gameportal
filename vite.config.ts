@@ -11,6 +11,11 @@ export default defineConfig({
                 changeOrigin: true,
                 rewrite: (path) => path.replace(/^\/steam/, '')
             },
+            '/store': {
+                target: "https://store.steampowered.com/api",
+                changeOrigin: true,
+                rewrite: (path) => path.replace(/^\/store/, '')
+            },
             '/rawg': {
                 target: 'https://api.rawg.io/api',
                 changeOrigin: true,
