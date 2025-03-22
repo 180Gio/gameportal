@@ -1,6 +1,7 @@
 import {getUpcomingGames} from "../../external/rawgApi.js";
 import {Card, Col, Pagination, Row} from "react-bootstrap";
 import {useEffect, useState} from "react";
+import {formatDate} from "../../src/util.js";
 
 export default function UpcomingGamesPage() {
 
@@ -11,10 +12,14 @@ export default function UpcomingGamesPage() {
         const data = await getUpcomingGames(pageNumber);
         setUpcomingGames(data.results);
         loadPages(data.total, data.nextPage)
+        console.log(upcomingGames)
     }
 
     useEffect(() => {
-        loadUpcomingGames(1);
+        const fetchUpcomingGames = async () => {
+            await loadUpcomingGames(1);
+        }
+        fetchUpcomingGames();
     }, [])
 
     function loadPages(total, nextPage) {
@@ -51,12 +56,16 @@ export default function UpcomingGamesPage() {
             case 186:
                 return <span className={"badge rounded-pill bg-success"}>{platformName}</span>
             default:
-                return <span className={"badge rounded-pill bg-dark"}>{platformName}</span>
+                return <span className={"badge rounded-pill bg-gradient"}>{platformName}</span>
         }
     }
 
-    function getTag(tag) {
+    function getTagElement(tag) {
         return <span className={"badge bg-white text-black"}>{"#" + tag.name}</span>
+    }
+
+    function getGenreElement(genre) {
+        return <span className={"badge rounded-pill bg-custom"}>{genre.name}</span>
     }
 
     return (
@@ -69,19 +78,24 @@ export default function UpcomingGamesPage() {
                                       className={"card-img"}
                                       alt={"The image was a lie"}/>
                             <Card.Title>{game.name}</Card.Title>
-                            <Card.Body>
+                            <Card.Body className={"pt-0"}>
                                 <div className={"platform-row"}>
-                                    {game["platforms"] ? game["platforms"].map((plat, i) => (
+                                    {game["platforms"]?.map((plat, i) => (
                                         <div key={idx + "." + i}>{getPlatformPill(plat)}</div>
-                                    )) : null}
+                                    ))}
                                 </div>
-                                <Card.Text>
-                                    {game.description}
+                                <Card.Text className={"pt-2"}>
+                                    <p><b>Data di uscita:</b>&nbsp;{formatDate(game["released"])}</p>
+                                    <div className={"genre-row"}>
+                                        {game["genres"]?.map((genre, i) => (
+                                            <div key={idx + "." + i}>{getGenreElement(genre)}</div>
+                                        ))}
+                                    </div>
                                 </Card.Text>
-                                <Card.Footer className={"card-footer"}>
-                                    {game["tags"] ? game["tags"].filter(gameTag => gameTag["language"] === "eng" || gameTag["language"] === "ita").slice(0, 5).map((gameTag, i) => (
-                                        <div key={idx + "." + i}>{getTag(gameTag)}</div>
-                                    )) : null}
+                                <Card.Footer className={"pt-0 border-top-0"}>
+                                    {game["tags"]?.filter(gameTag => gameTag["language"] === "eng" || gameTag["language"] === "ita").slice(0, 5).map((gameTag, i) => (
+                                        <div key={idx + "." + i}>{getTagElement(gameTag)}</div>
+                                    ))}
                                 </Card.Footer>
                             </Card.Body>
                         </Card>

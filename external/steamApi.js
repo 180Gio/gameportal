@@ -7,13 +7,15 @@ export async function getSteamID(username) {
 
 export async function getSteamAppInfo(steamAppName) {
     let steamAppId = getSteamAppId(steamAppName);
+    let steamAppInfo = {}
     if (steamAppId) {
-        return await fetch("/store/appdetails?appids=" + steamAppId)
+        await fetch("/store/appdetails?appids=" + steamAppId)
             .then(response => response.text()
-                .then((data) => JSON.parse(data)))
+                .then((data) => steamAppInfo = Object.values(JSON.parse(data))[0]))
             .catch(console.error)
             .catch(console.error);
     }
+    return steamAppInfo;
 }
 
 export function getSteamAppId(steamAppName) {

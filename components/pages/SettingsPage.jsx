@@ -128,13 +128,15 @@ export default function SettingsPage({setShowSettings, showSettings, userDb, set
                     <hr/>
                     <h5>Zona pericolosa</h5>
                     <div className={"container mt-3"}>
-                        <button className="btn btn-md btn-danger" onClick={() => setShowDeleteModal(true)}>Elimina il
+                        <button className="btn btn-md btn-danger"
+                                onClick={() => setShowDeleteModal(true)}>Elimina il
                             tuo account
                         </button>
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="primary-orange" onClick={() => setShowSettings(false)}>Chiudi</Button>
+                    <Button className={"btn-lg"} variant="primary-orange"
+                            onClick={() => setShowSettings(false)}>Chiudi</Button>
                 </Modal.Footer>
             </Modal>
             <ToastContainer position="bottom-end" className={"p-3"}>
