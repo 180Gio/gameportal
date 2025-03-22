@@ -262,11 +262,12 @@ body {
 .card-iterator a:hover {
     background-color: white;
     color: black;
-    border: 1px solid black;
+    border: 1px solid white;
 }
 
 .card-iterator span.page-link {
     background-color: #12bee6;
+    border: 1px solid white;
 }
 
 .bg-custom {
