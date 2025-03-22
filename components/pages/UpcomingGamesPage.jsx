@@ -12,7 +12,6 @@ export default function UpcomingGamesPage() {
         const data = await getUpcomingGames(pageNumber);
         setUpcomingGames(data.results);
         loadPages(data.total, data.nextPage)
-        console.log(upcomingGames)
     }
 
     useEffect(() => {
@@ -84,9 +83,9 @@ export default function UpcomingGamesPage() {
                                         <div key={idx + "." + i}>{getPlatformPill(plat)}</div>
                                     ))}
                                 </div>
-                                <Card.Text className={"pt-2"}>
-                                    <p><b>Data di uscita:</b>&nbsp;{formatDate(game["released"])}</p>
-                                    <div className={"genre-row"}>
+                                <Card.Text className={"pt-4"}>
+                                    <b>Data di uscita:</b>&nbsp;{formatDate(game["released"])}
+                                    <div className={"genre-row pt-2"}>
                                         {game["genres"]?.map((genre, i) => (
                                             <div key={idx + "." + i}>{getGenreElement(genre)}</div>
                                         ))}
