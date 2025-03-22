@@ -78,22 +78,22 @@ export default function UpcomingGamesPage() {
                                       alt={"The image was a lie"}/>
                             <Card.Title>{game.name}</Card.Title>
                             <Card.Body className={"pt-0"}>
-                                <div className={"platform-row"}>
+                                <span className={"platform-row"}>
                                     {game["platforms"]?.map((plat, i) => (
-                                        <div key={idx + "." + i}>{getPlatformPill(plat)}</div>
+                                        <span key={idx + "." + i}>{getPlatformPill(plat)}</span>
                                     ))}
-                                </div>
+                                </span>
                                 <Card.Text className={"pt-4"}>
                                     <b>Data di uscita:</b>&nbsp;{formatDate(game["released"])}
-                                    <div className={"genre-row pt-2"}>
+                                    <span className={"genre-row pt-2"}>
                                         {game["genres"]?.map((genre, i) => (
-                                            <div key={idx + "." + i}>{getGenreElement(genre)}</div>
+                                            <span key={idx + "." + i}>{getGenreElement(genre)}</span>
                                         ))}
-                                    </div>
+                                    </span>
                                 </Card.Text>
                                 <Card.Footer className={"pt-0 border-top-0"}>
                                     {game["tags"]?.filter(gameTag => gameTag["language"] === "eng" || gameTag["language"] === "ita").slice(0, 5).map((gameTag, i) => (
-                                        <div key={idx + "." + i}>{getTagElement(gameTag)}</div>
+                                        <span key={idx + "." + i}>{getTagElement(gameTag)}</span>
                                     ))}
                                 </Card.Footer>
                             </Card.Body>

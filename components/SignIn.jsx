@@ -80,20 +80,22 @@ export default function SignIn({setLoggedIn, setUserDb}) {
                     <form onSubmit={isRegister ? doRegistration : doLogin}>
                         <div className="input-group">
                             <input type="email" id="email" name="email"
-                                   onChange={(e) => setEmail(e.target.value)}/>
+                                   onChange={(e) => setEmail(e.target.value)} autoComplete={"email"}/>
                             <label htmlFor="email">Email</label>
                         </div>
 
                         <div className="input-group">
                             <input type="password" id="password" name="password"
-                                   onChange={(e) => setPassword(e.target.value)}/>
+                                   onChange={(e) => setPassword(e.target.value)}
+                                   autoComplete={isRegister ? "new-password" : "password"}/>
                             <label htmlFor="password">Password</label>
                         </div>
 
                         {isRegister ?
                             <div className="input-group">
                                 <input type="password" id="confirm-password" name="confirm-password"
-                                       onChange={(e) => setConfirmPassword(e.target.value)}/>
+                                       onChange={(e) => setConfirmPassword(e.target.value)}
+                                       autoComplete={"new-password"}/>
                                 <label htmlFor="password">Conferma password</label>
                             </div>
                             : null}
