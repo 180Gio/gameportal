@@ -2,7 +2,7 @@ import {Button, Modal, Toast, ToastContainer} from "react-bootstrap";
 import React, {useState} from "react";
 import {deleteUser, updateNotificationPreferences, updateUsername} from "../../firebase/firestore.js";
 import {removeUser} from "../../firebase/auth.js";
-import "/src/css/setttings.css"
+import "/src/css/settings.css"
 
 export default function SettingsPage({setShowSettings, showSettings, userDb, setUserDb, setLoggedIn}) {
 
