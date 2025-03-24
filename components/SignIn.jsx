@@ -25,7 +25,7 @@ export default function SignIn({setLoggedIn, setUserDb}) {
     }
 
     function showError(error) {
-        let message = "";
+        let message;
         switch (error) {
             case "password-mismatch":
                 message = "Le password non corrispondono. Inserire due password identiche."
