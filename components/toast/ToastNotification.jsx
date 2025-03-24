@@ -6,7 +6,7 @@ export default function ToastNotifications() {
     const {toasts, removeToast} = useToast();
 
     return (
-        <ToastContainer position="bottom-end" className={"p-3"}>
+        <ToastContainer position="bottom-end" className={"p-3 position-fixed"}>
             {toasts?.map((toast) => (
                 <Toast show={true} onClose={() => removeToast(toast.id)} style={{zIndex: 9999}}
                        autohide={true}

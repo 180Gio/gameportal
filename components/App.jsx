@@ -8,7 +8,7 @@ import ProfilePage from "./pages/ProfilePage.jsx";
 import GameFinderPage from "./pages/GameFinderPage.jsx";
 import {ToastProvider} from './toast/ToastProvider.jsx';
 import ToastNotifications from "./toast/ToastNotification.jsx";
-
+import "../src/css/index.css"
 
 export default function App() {
     const [loggedIn, setLoggedIn] = useState(false);
@@ -45,7 +45,9 @@ export default function App() {
                         <SignIn setLoggedIn={setLoggedIn} setUserDb={setUserDb}/>
                     </div>
                 }
-                <ToastNotifications/>
+                <footer>
+                    <ToastNotifications/>
+                </footer>
             </ToastProvider>
         </>
     )

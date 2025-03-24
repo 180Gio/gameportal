@@ -4,14 +4,15 @@ const ToastContext = createContext({});
 
 export function ToastProvider({children}) {
     const [toasts, setToasts] = useState([]);
-    const delay = 5000;
 
     const addToast = (title, message, type) => {
+        let delay = type === "danger" ? 5000 : 2500
+
         const newToast = {
             id: Date.now(),
             title: title,
-            message,
-            type,
+            message: message,
+            type: type,
             delay: delay
         };
         setToasts((prevToasts) => [...prevToasts, newToast]);
