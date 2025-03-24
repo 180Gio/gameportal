@@ -1,13 +1,13 @@
-import {Button, Modal, Toast, ToastContainer} from "react-bootstrap";
+import {Button, Modal} from "react-bootstrap";
 import React, {useState} from "react";
 import {deleteUser, updateNotificationPreferences, updateUsername} from "../../firebase/firestore.js";
 import {removeUser} from "../../firebase/auth.js";
 import "/src/css/settings.css"
+import {useToast} from "../toast/ToastProvider.jsx";
 
 export default function SettingsPage({setShowSettings, showSettings, userDb, setUserDb, setLoggedIn}) {
-
-    const [toasts, setToasts] = useState([]);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const {addToast} = useToast();
 
     function initModal() {
         let usernameElement = document.getElementById("username");
@@ -17,20 +17,6 @@ export default function SettingsPage({setShowSettings, showSettings, userDb, set
         let gameOutNotificationElement = document.getElementById("games-out");
         gameOutNotificationElement.checked = userDb.notificationPreferences.gameOut;
         newsNotificationElement.checked = userDb.notificationPreferences.news;
-    }
-
-    function addToast(title, message, type) {
-        const delay = 5000;
-        const id = toasts.length + 1;
-        const toast = {id: id, title: title, message: message, type: type, delay: delay};
-        setToasts([...toasts, toast]);
-        setTimeout(() => {
-            removeToast(id);
-        }, delay);
-    }
-
-    function removeToast(id) {
-        setToasts((prevToasts) => prevToasts.filter(toast => toast.id !== id));
     }
 
 
@@ -68,7 +54,7 @@ export default function SettingsPage({setShowSettings, showSettings, userDb, set
             })
             .catch((e) => {
                 console.log(e)
-                addToast("Cancellazione account",
+                createToast("Cancellazione account",
                     "Si è verificato un errore durante la cancellazione dell'account, riprova più tardi", "danger")
             })
     }
@@ -140,19 +126,6 @@ export default function SettingsPage({setShowSettings, showSettings, userDb, set
                             onClick={() => setShowSettings(false)}>Chiudi</Button>
                 </Modal.Footer>
             </Modal>
-            <ToastContainer position="bottom-end" className={"p-3"}>
-                {toasts.map((toast) => (
-                    <Toast show={true} onClose={() => removeToast(toast.id)} style={{zIndex: 9999}}
-                           autohide={true}
-                           bg={toast.type} delay={toast.delay} key={toast.id}>
-                        <Toast.Header>
-                            <strong className="me-auto">{toast.title}</strong>
-                        </Toast.Header>
-                        <Toast.Body>{toast.message}</Toast.Body>
-                    </Toast>
-                ))}
-            </ToastContainer>
-
             <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)} centered
                    contentClassName={"delete-modal"} dialogClassName={"settings-dialog-modal"}>
                 <Modal.Header className={"delete-modal-header"} closeButton closeVariant={"white"}>

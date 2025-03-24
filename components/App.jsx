@@ -1,11 +1,14 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import SiteHeader from "./SiteHeader.jsx";
 import SignIn from "./SignIn.jsx";
 import UpcomingGamesPage from "./pages/UpcomingGamesPage.jsx";
 import NewsPage from "./pages/NewsPage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
 import GameFinderPage from "./pages/GameFinderPage.jsx";
+import {ToastProvider} from './toast/ToastProvider.jsx';
+import ToastNotifications from "./toast/ToastNotification.jsx";
+
 
 export default function App() {
     const [loggedIn, setLoggedIn] = useState(false);
@@ -32,15 +35,18 @@ export default function App() {
         }
     }
 
-
     return (
         <>
-            <SiteHeader setLoggedIn={setLoggedIn} setPage={setPage} page={page} userDb={userDb} setUserDb={setUserDb}/>
-            {loggedIn ? renderPage() :
-                <div className={"credentials-wrapper"}>
-                    <SignIn setLoggedIn={setLoggedIn} setUserDb={setUserDb}/>
-                </div>
-            }
+            <ToastProvider>
+                <SiteHeader setLoggedIn={setLoggedIn} setPage={setPage} page={page} userDb={userDb}
+                            setUserDb={setUserDb}/>
+                {loggedIn ? renderPage() :
+                    <div className={"credentials-wrapper"}>
+                        <SignIn setLoggedIn={setLoggedIn} setUserDb={setUserDb}/>
+                    </div>
+                }
+                <ToastNotifications/>
+            </ToastProvider>
         </>
     )
 }
