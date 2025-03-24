@@ -18,6 +18,12 @@ export async function getSteamAppInfo(steamAppName) {
     return steamAppInfo;
 }
 
+export function getSteamAutocomplete(steamGameName, maxResults) {
+    let allGames = steamDataMap.getAllGameNames()
+    allGames = allGames.filter(game => game.toLowerCase().includes(steamGameName.toLowerCase())).slice(0, maxResults);
+    return [...new Set(allGames)]
+}
+
 export function getSteamAppId(steamAppName) {
     return steamDataMap.getGameId(steamAppName);
 }
@@ -51,6 +57,11 @@ class SteamDataSingleton {
 
     getGameId(gameName) {
         return this.map.values().find(gameObj => gameObj.name === gameName)?.appid
+    }
+
+    getAllGameNames() {
+        //TODO prendere solo giochi?
+        return Object.values(this.map).map(game => game.name);
     }
 }
 

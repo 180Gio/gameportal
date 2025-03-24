@@ -2,6 +2,7 @@ import {logout} from "../firebase/auth.js";
 import {Button, ButtonGroup, Image, NavDropdown} from "react-bootstrap";
 import {useState} from "react";
 import SettingsPage from "./pages/SettingsPage.jsx";
+import "../src/css/header.css"
 
 
 export default function SiteHeader({setLoggedIn, setPage, page, userDb, setUserDb}) {
@@ -56,10 +57,13 @@ export default function SiteHeader({setLoggedIn, setPage, page, userDb, setUserD
                                                 />
                                             }
                                             id="profile-dropdown"
-                                            align="end">
+                                            align="end"
+                                            className={"test"}>
                                             <NavDropdown.Item
-                                                onClick={() => setShowSettings(true)}>Impostazioni</NavDropdown.Item>
-                                            <NavDropdown.Item onClick={() => doLogout()}>Esci</NavDropdown.Item>
+                                                onClick={() => setShowSettings(true)}
+                                                className={"settings-dropdown"}>Impostazioni</NavDropdown.Item>
+                                            <NavDropdown.Item onClick={() => doLogout()}
+                                                              className={"settings-dropdown"}>Esci</NavDropdown.Item>
                                         </NavDropdown>
                                     </div>
                                     <SettingsPage setShowSettings={setShowSettings} showSettings={showSettings}

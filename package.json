@@ -10,12 +10,21 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@heroui/react": "^2.7.5",
+    "@mui/material": "^6.4.8",
+    "@mui/styled-engine": "^6.4.8",
     "bootstrap": "^5.3.3",
+    "bootstrap-icons": "^1.11.3",
     "classnames": "^2.5.1",
     "firebase": "^11.4.0",
+    "primereact": "^10.9.3",
     "react": "^19.0.0",
     "react-bootstrap": "^2.10.9",
+    "react-bootstrap-typeahead": "^6.4.1",
     "react-dom": "^19.0.0",
+    "react-select": "^5.10.1",
     "shadcn-ui": "^0.9.5"
   },
   "devDependencies": {

@@ -1,0 +1,83 @@
+.card-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px
+}
+
+.card-wrapper {
+    flex: 1 1 50%;
+    max-width: 40%;
+}
+
+.platform-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.custom-card {
+    background-color: transparent;
+    color: white;
+    border: white 2px solid;
+    height: 33rem;
+    padding: 5px;
+    overflow: hidden;
+}
+
+.card-img {
+    height: 18rem;
+    max-width: 100%;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.card-footer {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    font-size: 16px;
+    height: 2.5rem;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.card-footer hr {
+    background-color: white;
+}
+
+.card-iterator {
+    padding-top: 1rem;
+    padding-left: 4rem;
+}
+
+.card-iterator a {
+    background-color: transparent;
+    border: 1px solid white;
+    color: white;
+}
+
+.card-iterator a:hover {
+    background-color: white;
+    color: black;
+    border: 1px solid white;
+}
+
+.card-iterator span.page-link {
+    background-color: #12bee6;
+    border: 1px solid white;
+}
+
+.bg-custom {
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-size: 14px;
+    color: white;
+    background-color: #ff914d;
+}
+
+.genre-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}

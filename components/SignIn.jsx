@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {loginWithEmailAndPassword, loginWithGoogle, registerWithEmailAndPassword} from "../firebase/auth.js";
 import Popup from "./Popup.jsx";
 import {getUser} from "../firebase/firestore.js";
+import "../src/css/signin.css"
 
 export default function SignIn({setLoggedIn, setUserDb}) {
     const [isRegister, setIsRegister] = useState(true);

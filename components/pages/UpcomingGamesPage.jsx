@@ -2,6 +2,7 @@ import {getUpcomingGames} from "../../external/rawgApi.js";
 import {Card, Col, Pagination, Row} from "react-bootstrap";
 import {useEffect, useState} from "react";
 import {formatDate} from "../../src/util.js";
+import "../../src/css/upcomingGames.css"
 
 export default function UpcomingGamesPage() {
 
