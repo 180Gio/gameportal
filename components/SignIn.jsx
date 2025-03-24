@@ -1,8 +1,8 @@
 import React, {useState} from "react";
 import {loginWithEmailAndPassword, loginWithGoogle, registerWithEmailAndPassword} from "../firebase/auth.js";
-import Popup from "./Popup.jsx";
 import {getUser} from "../firebase/firestore.js";
 import "../src/css/signin.css"
+import {useToast} from "./toast/ToastProvider.jsx";
 
 export default function SignIn({setLoggedIn, setUserDb}) {
     const [isRegister, setIsRegister] = useState(true);
@@ -11,41 +11,35 @@ export default function SignIn({setLoggedIn, setUserDb}) {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
-    const [showPopup, setShowPopup] = useState(false);
-    const [message, setMessage] = useState("");
-    const [type, setType] = useState("");
+    const {addToast} = useToast();
 
     function handleRegistration() {
-        setType("success")
-        setMessage("Registrazione avvenuta con successo")
-        setShowPopup(true);
+        addToast("Benvenuto!", "Registrazione avvenuta con successo", "success")
     }
 
     async function handleLogin(user) {
-        setType("success")
-        setMessage("Login avvenuto con successo")
-        setShowPopup(true);
+        addToast("Bentornato!", "Login avvenuto con successo", "success")
         await getUser(user.email)
             .then(userDb => setUserDb(userDb))
         setLoggedIn(true)
     }
 
     function showError(error) {
+        let message = "";
         switch (error) {
             case "password-mismatch":
-                setMessage("Le password non corrispondono. Inserire due password identiche.")
+                message = "Le password non corrispondono. Inserire due password identiche."
                 break;
             case "auth/email-already-in-use":
-                setMessage("La mail è già in uso, prova ad eseguire il login")
+                message = "La mail è già in uso, prova ad eseguire il login"
                 break
             case "auth/invalid-credential":
-                setMessage("La password è errata")
+                message = "La password è errata"
                 break
             default:
-                setMessage("Si è verificato un errore, riprova tra qualche istante. " + error)
+                message = "Si è verificato un errore, riprova tra qualche istante. " + error
         }
-        setType("error")
-        setShowPopup(true);
+        addToast("Errore", message, "danger")
 
     }
 
@@ -118,7 +112,6 @@ export default function SignIn({setLoggedIn, setUserDb}) {
                     </button>
                 </div>
             </div>
-            <Popup show={showPopup} setShow={setShowPopup} message={message} type={type}/>
         </div>
     )
 }
