@@ -23,13 +23,11 @@
     background-color: transparent;
     border: 1px solid white;
     border-radius: 10px;
-
 }
 
 
-.dropdown-item {
-    color: white;
-    margin: 10px;
+.rbt a {
+    padding: 5px;
 }
 
 .rbt-input-hint {

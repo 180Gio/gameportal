@@ -9,6 +9,17 @@
     padding: 10px 20px;
 }
 
-.settings-dropdown .dropdown-item {
-    /*TODO*/
+.dropdown-menu {
+    background-color: transparent;
+    backdrop-filter: blur(5px);
+    border: 1px solid white;
+}
+
+.dropdown-item {
+    color: white;
+}
+
+.dropdown-item:hover {
+    background-color: #12bee6;
+    color: black;
 }
