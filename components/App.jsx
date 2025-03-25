@@ -9,6 +9,9 @@ import GameFinderPage from "./pages/GameFinderPage.jsx";
 import {ToastProvider} from './toast/ToastProvider.jsx';
 import ToastNotifications from "./toast/ToastNotification.jsx";
 import "../src/css/index.css"
+import {onAuthStateChanged} from "firebase/auth";
+import {auth} from "../firebase/firebase.js";
+import {getUser} from "../firebase/firestore.js";
 
 export default function App() {
     const [loggedIn, setLoggedIn] = useState(false);
@@ -21,6 +24,17 @@ export default function App() {
             setUserDb(null)
         }
     }, [loggedIn])
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                getUser(user.email).then(userDb => {
+                    setLoggedIn(true)
+                    setUserDb(userDb)
+                })
+            }
+        });
+        return () => unsubscribe();
+    }, []);
 
     function renderPage() {
         switch (page) {
