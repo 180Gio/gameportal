@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {loginWithEmailAndPassword, loginWithGoogle, registerWithEmailAndPassword} from "../firebase/auth.js";
-import {getUser} from "../firebase/firestore.js";
+import {getUser} from "../firestore/userService.js";
 import "../src/css/signin.css"
 import {useToast} from "./toast/ToastProvider.jsx";
 

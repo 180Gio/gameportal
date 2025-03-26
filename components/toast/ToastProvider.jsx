@@ -6,7 +6,7 @@ export function ToastProvider({children}) {
     const [toasts, setToasts] = useState([]);
 
     const addToast = (title, message, type) => {
-        let delay = type === "danger" ? 5000 : 2500
+        let delay = type === "danger" ? 5000 : 3500
 
         const newToast = {
             id: Date.now(),

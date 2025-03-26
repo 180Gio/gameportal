@@ -81,3 +81,11 @@
     gap: 10px;
     flex-wrap: wrap;
 }
+
+.custom-tooltip {
+    --bs-tooltip-bg: #222831;
+    --bs-tooltip-opacity: 100%;
+    --bs-tooltip-color: white;
+    border: 1px solid white;
+    border-radius: 5px;
+}

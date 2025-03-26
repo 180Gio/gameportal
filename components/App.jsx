@@ -11,7 +11,7 @@ import ToastNotifications from "./toast/ToastNotification.jsx";
 import "../src/css/index.css"
 import {onAuthStateChanged} from "firebase/auth";
 import {auth} from "../firebase/firebase.js";
-import {getUser} from "../firebase/firestore.js";
+import {getUser} from "../firestore/userService.js";
 
 export default function App() {
     const [loggedIn, setLoggedIn] = useState(false);
@@ -39,7 +39,7 @@ export default function App() {
     function renderPage() {
         switch (page) {
             case 1:
-                return <UpcomingGamesPage/>
+                return <UpcomingGamesPage userDb={userDb}/>
             case 2:
                 return <NewsPage/>
             case 3:

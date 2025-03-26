@@ -1,6 +1,6 @@
 import {Button, Modal} from "react-bootstrap";
 import React, {useState} from "react";
-import {deleteUser, updateNotificationPreferences, updateUsername} from "../../firebase/firestore.js";
+import {deleteUser, updateNotificationPreferences, updateUsername} from "../../firestore/userService.js";
 import {removeUser} from "../../firebase/auth.js";
 import "/src/css/settings.css"
 import {useToast} from "../toast/ToastProvider.jsx";

@@ -1,10 +1,9 @@
-import {db} from "./firebase.js"
+import {db} from "../firebase/firebase.js"
 import {addDoc, collection, deleteDoc, getDocs, query, updateDoc, where} from "firebase/firestore"
 
 async function createUser(email) {
     let user = {
         email: email,
-        favoriteGames: [],
         notificationPreferences: {news: false, gameOut: false},
         username: email
     };
@@ -38,11 +37,6 @@ export async function getNotificationPreferences(email) {
     return user.notificationPreferences
 }
 
-export async function getFavoriteGames(email) {
-    let user = await getUser(email);
-    return user.favoriteGames
-}
-
 export async function updateUsername(email, username) {
     let user = await getUserRef(email);
     if (user) {
@@ -55,14 +49,6 @@ export async function updateNotificationPreferences(email, notificationPreferenc
     let user = await getUserRef(email);
     if (user) {
         await updateDoc(user.ref, {notificationPreferences: notificationPreferences});
-    }
-    return getUser(email)
-}
-
-export async function updateFavoriteGames(email, favoriteGames) {
-    let user = await getUserRef(email);
-    if (user) {
-        await updateDoc(user.ref, {favoriteGames: favoriteGames});
     }
     return getUser(email)
 }
