@@ -41,7 +41,7 @@ export default function App() {
             case 2:
             // return <NewsPage/>
             case 3:
-                return <ProfilePage/>
+                return <ProfilePage userDb={userDb}/>
             case 4:
                 // return <GameFinderPage/>
                 return <p>Page in construction</p>

@@ -2,7 +2,7 @@ const steamApiKey = import.meta.env.VITE_STEAM_API_KEY
 
 export async function getSteamID(username) {
     let response = await fetch("/steam/ISteamUser/ResolveVanityURL/v0001/?key=" + steamApiKey + "&vanityurl=" + username)
-    return (await response.json()).response;
+    return (await response.json()).response.steamid;
 }
 
 export async function getSteamAppInfo(steamAppName) {
@@ -49,6 +49,61 @@ export function getRandomGames(numberOfGames) {
         randomGames.push(steamDataMap.getRandomGame())
     }
     return randomGames;
+}
+
+export async function getSteamUserInfo(username) {
+    let steamId = await getSteamID(username);
+    let steamUserInfo = {};
+
+    async function getAccessToken() {
+        //TODO devi essere loggato
+        let response = await fetch("testStore/pointssummary/ajaxgetasyncconfig")
+        // return "eyAidHlwIjogIkpXVCIsICJhbGciOiAiRWREU0EiIH0.eyAiaXNzIjogInI6MDAwQl8yNUEwQzMzRF9DMTlEQyIsICJzdWIiOiAiNzY1NjExOTgxMzY1OTUyNTEiLCAiYXVkIjogWyAid2ViOmNvbW11bml0eSIgXSwgImV4cCI6IDE3NDM2MjI4MDksICJuYmYiOiAxNzM0ODk0NzE2LCAiaWF0IjogMTc0MzUzNDcxNiwgImp0aSI6ICIwMDE4XzI2MENEMTMyXzM5NDhGIiwgIm9hdCI6IDE3MzYwODUxMDYsICJydF9leHAiOiAxNzU0MTc5MTI0LCAicGVyIjogMCwgImlwX3N1YmplY3QiOiAiMi4zOC43Ny4yOSIsICJpcF9jb25maXJtZXIiOiAiMi4zOC43Ny4yOSIgfQ.9-xu_by2Tk9fhNJ9c0yhY-eQnINRsHUGIvsOQ0qDp8OqqntHwW3eQ-DNNJ34YDKEmkx8jf8tqy5xWGZkOV5lCg"
+        // return (await response.json()).webapi_token;
+    }
+
+    async function getSteamUserSummary() {
+        let response = await fetch("steam/ISteamUser/GetPlayerSummaries/v2/?key=" + steamApiKey +
+            "&format=json&steamids=" + steamId);
+        return (await response.json()).response.players[0];
+    }
+
+    // async function getSteamUserGames() {
+    //     let response = await fetch('partnerSteam/IPlayerService/GetOwnedGames/v1/?key=' + steamApiKey +
+    //         '&input_json={\"steamid\":' + steamId + ',\"include_appinfo\":true,\"include_played_free_games\":true}');
+    //     return await response.json();
+    // }
+
+    let accessToken = await getAccessToken();
+    debugger
+
+    // async function getSteamLevel() {
+    //     let response = await fetch("steam/IPlayerService/GetSteamLevel/v1/" +
+    //         "?access_token=" + accessToken + "&steamid=" + steamId)
+    //     return (await response.json()).response.player_level;
+    // }
+
+    //
+    // async function getRecentlyPlayedGames() {
+    //     let response = await fetch("steam/IPlayerService/GetRecentlyPlayedGames/v1/?access_token="
+    //         + accessToken + "&steamid=" + steamId + "&count=10")
+    //     return (await response.json()).response;
+    // }
+    //
+    // /**Chiamata per recupero achievements
+    //  * https://api.steampowered.com/IPlayerService/GetAchievementsProgress/v1/?access_token=eyAidHlwIjogIkpXVCIsICJhbGciOiAiRWREU0EiIH0.eyAiaXNzIjogInI6MDAwQl8yNUEwQzMzRF9DMTlEQyIsICJzdWIiOiAiNzY1NjExOTgxMzY1OTUyNTEiLCAiYXVkIjogWyAid2ViOmNvbW11bml0eSIgXSwgImV4cCI6IDE3NDM2MjI4MDksICJuYmYiOiAxNzM0ODk0NzE2LCAiaWF0IjogMTc0MzUzNDcxNiwgImp0aSI6ICIwMDE4XzI2MENEMTMyXzM5NDhGIiwgIm9hdCI6IDE3MzYwODUxMDYsICJydF9leHAiOiAxNzU0MTc5MTI0LCAicGVyIjogMCwgImlwX3N1YmplY3QiOiAiMi4zOC43Ny4yOSIsICJpcF9jb25maXJtZXIiOiAiMi4zOC43Ny4yOSIgfQ.9-xu_by2Tk9fhNJ9c0yhY-eQnINRsHUGIvsOQ0qDp8OqqntHwW3eQ-DNNJ34YDKEmkx8jf8tqy5xWGZkOV5lCg&steamid=76561198136595251&appids%5B0%5D=730&appids%5B1%5D=730
+    //  */
+    //
+    // let userSummary = await getSteamUserSummary();
+    // let userLevel = await getSteamLevel();
+    // let recentlyPlayedGames = await getRecentlyPlayedGames();
+    // debugger
+    // steamUserInfo["steamId"] = steamId;
+    // steamUserInfo["username"] = userSummary.personaname;
+    // steamUserInfo["profilePictureUrl"] = userSummary.avatarfull
+    // steamUserInfo["userLevel"] = userLevel
+    // steamUserInfo["recentlyPlayedGames"] = recentlyPlayedGames;
+    return steamUserInfo;
 }
 
 async function getSteamData() {

@@ -54,7 +54,7 @@ export default function SettingsPage({setShowSettings, showSettings, userDb, set
             })
             .catch((e) => {
                 console.log(e)
-                createToast("Cancellazione account",
+                addToast("Cancellazione account",
                     "Si è verificato un errore durante la cancellazione dell'account, riprova più tardi", "danger")
             })
     }
