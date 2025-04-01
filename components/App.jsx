@@ -3,9 +3,7 @@ import React, {useEffect, useState} from "react";
 import SiteHeader from "./SiteHeader.jsx";
 import SignIn from "./SignIn.jsx";
 import UpcomingGamesPage from "./pages/UpcomingGamesPage.jsx";
-import NewsPage from "./pages/NewsPage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
-import GameFinderPage from "./pages/GameFinderPage.jsx";
 import {ToastProvider} from './toast/ToastProvider.jsx';
 import ToastNotifications from "./toast/ToastNotification.jsx";
 import "../src/css/index.css"
@@ -41,11 +39,12 @@ export default function App() {
             case 1:
                 return <UpcomingGamesPage userDb={userDb}/>
             case 2:
-                return <NewsPage/>
+            // return <NewsPage/>
             case 3:
                 return <ProfilePage/>
             case 4:
-                return <GameFinderPage/>
+                // return <GameFinderPage/>
+                return <p>Page in construction</p>
         }
     }
 
@@ -54,7 +53,10 @@ export default function App() {
             <ToastProvider>
                 <SiteHeader setLoggedIn={setLoggedIn} setPage={setPage} page={page} userDb={userDb}
                             setUserDb={setUserDb}/>
-                {loggedIn ? renderPage() :
+                {loggedIn ?
+                    <div className="g-4 px-5">
+                        {renderPage()}
+                    </div> :
                     <div className={"credentials-wrapper"}>
                         <SignIn setLoggedIn={setLoggedIn} setUserDb={setUserDb}/>
                     </div>

@@ -32,6 +32,25 @@ export function getSteamAppName(steamAppId) {
     return steamDataMap.getGameName(steamAppId);
 }
 
+export async function getSteamNews(game, newsCount = 1) {
+    // if (game) {
+    //     let news = [];
+    //     await fetch("/steam/ISteamNews/GetNewsForApp/v0002/?appid=" + game.appid + "&count=" + newsCount + "&maxlength=300&format=json")
+    //         .then(response => response.text()
+    //             .then((data) => news = JSON.parse(data).appnews.newsitems)).catch(console.error)
+    //     debugger
+    //     return news;
+    // }
+}
+
+export function getRandomGames(numberOfGames) {
+    let randomGames = [];
+    for (let i = 0; i < numberOfGames; i++) {
+        randomGames.push(steamDataMap.getRandomGame())
+    }
+    return randomGames;
+}
+
 async function getSteamData() {
     let response = await fetch("/steam/ISteamApps/GetAppList/v2/");
     let appsList = (await response.json()).applist.apps;
@@ -57,6 +76,10 @@ class SteamDataSingleton {
 
     getGameId(gameName) {
         return this.map.values().find(gameObj => gameObj.name === gameName)?.appid
+    }
+
+    getRandomGame() {
+        return this.map.values().toArray()[Math.floor(Math.random() * this.map.length)];
     }
 
     getAllGameNames() {

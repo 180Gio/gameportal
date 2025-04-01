@@ -37,7 +37,7 @@ export default function UpcomingGamesPage({userDb}) {
 
     return (
         <>
-            <Row xs={1} md={3} className="g-4 px-5">
+            <Row xs={1} md={3} className="g-4">
                 {upcomingGames.map((game, idx) => (
                     <GameCard game={game} idx={idx} email={userDb.email}/>
                 ))}
