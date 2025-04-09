@@ -1,8 +1,9 @@
 import {useEffect, useState} from "react";
 import {getSteamUserInfo} from "../../external/steamApi.js";
-import {Col, Row, Spinner} from "react-bootstrap";
+import {Col, Row} from "react-bootstrap";
 import {isObjectEmpty} from "../../src/util.js";
 import "../../src/css/profilePage.css"
+import LoadingComponent from "../LoadingComponent.jsx";
 
 export default function ProfilePage({userDb}) {
     const [steamUserData, setSteamUserData] = useState({})
@@ -20,12 +21,7 @@ export default function ProfilePage({userDb}) {
         <>
             {isObjectEmpty(steamUserData) ? (
                     <>
-                        <Row className={"d-flex justify-content-center"}>
-                            <Col md={"4"} offset-md={"4"}
-                                 className={"loading-holder d-flex align-items-center justify-content-center"}>
-                                <Spinner animation="border" variant="info"/>&nbsp;&nbsp;Caricamento dati del profilo Steam
-                            </Col>
-                        </Row>
+                        <LoadingComponent text={"Caricamento dati del profilo Steam"}/>
                     </>
                 ) :
                 <>

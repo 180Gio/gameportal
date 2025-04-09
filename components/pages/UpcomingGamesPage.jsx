@@ -3,6 +3,8 @@ import {Pagination, Row} from "react-bootstrap";
 import {useEffect, useState} from "react";
 import "../../src/css/upcomingGames.css"
 import GameCard from "../GameCard.jsx";
+import LoadingComponent from "../LoadingComponent.jsx";
+import {isArrayEmpty} from "../../src/util.js";
 
 export default function UpcomingGamesPage({userDb}) {
 
@@ -37,16 +39,22 @@ export default function UpcomingGamesPage({userDb}) {
 
     return (
         <>
-            <Row xs={1} md={3} className="g-4">
-                {upcomingGames.map((game, idx) => (
-                    <GameCard game={game} idx={idx} email={userDb.email}/>
-                ))}
-            </Row>
-            <Row>
-                <Pagination className={"card-iterator"}>
-                    {pages}
-                </Pagination>
-            </Row>
+            {isArrayEmpty(upcomingGames) ?
+                <LoadingComponent text={"Caricamento giochi in uscita"}/>
+                :
+                <>
+                    <Row xs={1} md={3} className="g-4">
+                        {upcomingGames.map((game, idx) => (
+                            <GameCard game={game} idx={idx} email={userDb.email}/>
+                        ))}
+                    </Row>
+                    <Row>
+                        <Pagination className={"card-iterator"}>
+                            {pages}
+                        </Pagination>
+                    </Row>
+                </>
+            }
         </>
 
     )
