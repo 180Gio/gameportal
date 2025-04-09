@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {getSteamUserInfo} from "../../external/steamApi.js";
-import {Col, Image, Row} from "react-bootstrap";
+import {Col, Row} from "react-bootstrap";
 
 export default function ProfilePage({userDb}) {
     const [steamUserData, setSteamUserData] = useState({})
@@ -18,11 +18,11 @@ export default function ProfilePage({userDb}) {
     return (
         <>
             <Row>
-                <h4>Profilo di {steamUserData.username}</h4>
+                <h4>Profilo di {steamUserData.userInfo?.personaname}</h4>
             </Row>
             <Row className="pt-4">
                 <Col md={2}>
-                    <Image src={steamUserData.profilePictureUrl} rounded={true}/>
+                    {/*<Image src={steamUserData.userInfo?.avatarfull} rounded={true}/>*/}
                 </Col>
                 <Col>
 

@@ -19,13 +19,17 @@
     "bootstrap-icons": "^1.11.3",
     "classnames": "^2.5.1",
     "firebase": "^11.4.0",
+    "openid-client": "^6.4.1",
+    "passport-steam": "^1.0.18",
     "primereact": "^10.9.3",
     "react": "^19.0.0",
     "react-bootstrap": "^2.10.9",
     "react-bootstrap-typeahead": "^6.4.1",
     "react-dom": "^19.0.0",
     "react-select": "^5.10.1",
-    "shadcn-ui": "^0.9.5"
+    "shadcn-ui": "^0.9.5",
+    "steam-lightweight-openid": "^1.0.0",
+    "steam-openid": "^1.1.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
