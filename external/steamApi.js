@@ -56,10 +56,17 @@ export async function getSteamUserInfo(username) {
     async function getSteamUserSummary() {
         let response = await fetch("steam/ISteamUser/GetPlayerSummaries/v2/?key=" + steamApiKey +
             "&format=json&steamids=" + steamId);
-        return (await response.json()).response.players[0];
+        let userData = (await response.json()).response.players[0];
+        let userFormattedData = {}
+        userFormattedData["steamId"] = userData["steamid"];
+        userFormattedData["steamUsername"] = userData["personaname"]
+        userFormattedData["steamProfileUrl"] = userData["profileurl"]
+        userFormattedData["steamAvatarUrl"] = userData["avatarfull"]
+        userFormattedData["steamAccountCreationDate"] = new Date(userData["timecreated"] * 1000).toLocaleString()
+        return userFormattedData;
     }
 
-    async function getDoneAchievements(appId) {
+    async function getUnlockedAchievementsCount(appId) {
         let achievementsDone;
         try {
             let response = await fetch("steam/ISteamUserStats/GetUserStatsForGame/v0002/?appid=" + appId + "&key=" + steamApiKey + "&steamid=" + steamId)
@@ -75,7 +82,7 @@ export async function getSteamUserInfo(username) {
         return achievementsDone;
     }
 
-    async function getTotalAchievements(appId) {
+    async function getTotalAchievementsCount(appId) {
         let totalAchievements;
         try {
             let response = await fetch("steam/ISteamUserStats/GetSchemaForGame/v2/?appid=" + appId + "&key=" + steamApiKey)
@@ -94,21 +101,22 @@ export async function getSteamUserInfo(username) {
     async function getUserSteamRecentGames() {
         let response = await fetch("steam/IPlayerService/GetRecentlyPlayedGames/v0001/?key=" + steamApiKey + "&steamid=" + steamId + "&format=json&count=9");
         let games = (await response.json()).response.games;
-
+        let formattedGames = []
         for (let game of games) {
-            game["gameImage"] = "http://media.steampowered.com/steamcommunity/public/images/apps/" + game["appid"] + "/" + game["img_icon_url"] + ".jpg"
-            game["achievementsDone"] = await getDoneAchievements(game["appid"])
-            game["achievementsTotal"] = await getTotalAchievements(game["appid"])
+            let gameData = {};
+            gameData["gameName"] = game["name"];
+            gameData["gameId"] = game["appid"];
+            gameData["totalHoursPlayed"] = (game["playtime_forever"] / 60).toPrecision(3);
+            gameData["unlockedAchievementsCount"] = await getUnlockedAchievementsCount(game["appid"])
+            gameData["totalAchievementsCount"] = await getTotalAchievementsCount(game["appid"])
+            gameData["gameImage"] = "http://media.steampowered.com/steamcommunity/public/images/apps/" + game["appid"] + "/" + game["img_icon_url"] + ".jpg"
+            formattedGames.push(gameData);
         }
-        return games;
+        return formattedGames;
     }
 
     steamUserInfo["userInfo"] = await getSteamUserSummary();
     steamUserInfo["recentlyPlayedGames"] = await getUserSteamRecentGames();
-    // /**Chiamata per recupero achievements
-    //  * https://api.steampowered.com/IPlayerService/GetAchievementsProgress/v1/?access_token=eyAidHlwIjogIkpXVCIsICJhbGciOiAiRWREU0EiIH0.eyAiaXNzIjogInI6MDAwQl8yNUEwQzMzRF9DMTlEQyIsICJzdWIiOiAiNzY1NjExOTgxMzY1OTUyNTEiLCAiYXVkIjogWyAid2ViOmNvbW11bml0eSIgXSwgImV4cCI6IDE3NDM2MjI4MDksICJuYmYiOiAxNzM0ODk0NzE2LCAiaWF0IjogMTc0MzUzNDcxNiwgImp0aSI6ICIwMDE4XzI2MENEMTMyXzM5NDhGIiwgIm9hdCI6IDE3MzYwODUxMDYsICJydF9leHAiOiAxNzU0MTc5MTI0LCAicGVyIjogMCwgImlwX3N1YmplY3QiOiAiMi4zOC43Ny4yOSIsICJpcF9jb25maXJtZXIiOiAiMi4zOC43Ny4yOSIgfQ.9-xu_by2Tk9fhNJ9c0yhY-eQnINRsHUGIvsOQ0qDp8OqqntHwW3eQ-DNNJ34YDKEmkx8jf8tqy5xWGZkOV5lCg&steamid=76561198136595251&appids%5B0%5D=730&appids%5B1%5D=730
-    //  */
-    console.log(steamUserInfo);
     return steamUserInfo;
 }
 
