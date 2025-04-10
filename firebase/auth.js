@@ -3,6 +3,7 @@ import {
     createUserWithEmailAndPassword,
     deleteUser,
     GoogleAuthProvider,
+    sendEmailVerification,
     signInWithEmailAndPassword,
     signInWithPopup
 } from "firebase/auth";
@@ -30,4 +31,8 @@ export async function removeUser() {
     if (user) {
         await deleteUser(user)
     }
+}
+
+export async function sendVerification() {
+    return sendEmailVerification(auth.currentUser);
 }

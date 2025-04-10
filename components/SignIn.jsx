@@ -1,5 +1,10 @@
 import React, {useState} from "react";
-import {loginWithEmailAndPassword, loginWithGoogle, registerWithEmailAndPassword} from "../firebase/auth.js";
+import {
+    loginWithEmailAndPassword,
+    loginWithGoogle,
+    registerWithEmailAndPassword,
+    sendVerification
+} from "../firebase/auth.js";
 import {getUser} from "../firestore/userService.js";
 import "../src/css/signin.css"
 import {useToast} from "./toast/ToastProvider.jsx";
@@ -13,8 +18,10 @@ export default function SignIn({setLoggedIn, setUserDb}) {
 
     const {addToast} = useToast();
 
-    function handleRegistration() {
-        addToast("Benvenuto!", "Registrazione avvenuta con successo", "success")
+    async function handleRegistration() {
+        await sendVerification()
+            .then(() => addToast("Benvenuto!", "Registrazione avvenuta con successo, clicca sul link che hai " +
+                "ricevuto nella mail per verificare il tuo account", "success"));
     }
 
     async function handleLogin(user) {
@@ -36,6 +43,9 @@ export default function SignIn({setLoggedIn, setUserDb}) {
             case "auth/invalid-credential":
                 message = "La password è errata"
                 break
+            case "auth/invalid-email":
+                message = "L'indirizzo mail che hai inserito non è valido."
+                break;
             default:
                 message = "Si è verificato un errore, riprova tra qualche istante. " + error
         }

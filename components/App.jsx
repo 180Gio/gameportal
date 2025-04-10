@@ -24,7 +24,7 @@ export default function App() {
     }, [loggedIn])
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
-            if (user) {
+            if (user && user.emailVerified) {
                 getUser(user.email).then(userDb => {
                     setLoggedIn(true)
                     setUserDb(userDb)
