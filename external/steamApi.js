@@ -1,3 +1,5 @@
+import {truncateNumberToDigit} from "../src/util.js";
+
 const steamApiKey = import.meta.env.VITE_STEAM_API_KEY
 
 export async function getSteamID(username) {
@@ -106,10 +108,10 @@ export async function getSteamUserInfo(username) {
             let gameData = {};
             gameData["gameName"] = game["name"];
             gameData["gameId"] = game["appid"];
-            gameData["totalHoursPlayed"] = (game["playtime_forever"] / 60).toPrecision(3);
+            gameData["totalHoursPlayed"] = truncateNumberToDigit((game["playtime_forever"] / 60), 1)
             gameData["unlockedAchievementsCount"] = await getUnlockedAchievementsCount(game["appid"])
             gameData["totalAchievementsCount"] = await getTotalAchievementsCount(game["appid"])
-            gameData["gameImage"] = "http://media.steampowered.com/steamcommunity/public/images/apps/" + game["appid"] + "/" + game["img_icon_url"] + ".jpg"
+            gameData["gameImage"] = "https://cdn.cloudflare.steamstatic.com/steam/apps/" + game["appid"] + "/library_hero.jpg"
             formattedGames.push(gameData);
         }
         return formattedGames;

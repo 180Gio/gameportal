@@ -39,7 +39,8 @@ export default function App() {
             case 1:
                 return <UpcomingGamesPage userDb={userDb}/>
             case 2:
-            // return <NewsPage/>
+                // return <NewsPage/>
+                return <p>Page in construction</p>
             case 3:
                 return <ProfilePage userDb={userDb}/>
             case 4:

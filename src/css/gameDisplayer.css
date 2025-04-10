@@ -1,0 +1,22 @@
+.game-container {
+    border: 2px solid white;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.img-thumbnail {
+    padding: 0.1rem;
+}
+
+.progress {
+    background-color: transparent;
+    border: 1px solid white;
+}
+
+.progressbar {
+    margin-left: 0 !important;
+}
+
+.bg-orange {
+    background-color: #ff914d !important;
+}

@@ -9,3 +9,7 @@ export function isObjectEmpty(object) {
 export function isArrayEmpty(array) {
     return array.length === 0;
 }
+
+export function truncateNumberToDigit(number, digits) {
+    return Math.trunc(number * Math.pow(10, digits)) / Math.pow(10, digits)
+}
