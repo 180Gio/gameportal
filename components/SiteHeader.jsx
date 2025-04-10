@@ -57,8 +57,7 @@ export default function SiteHeader({setLoggedIn, setPage, page, userDb, setUserD
                                                 />
                                             }
                                             id="profile-dropdown"
-                                            align="end"
-                                            className={"test"}>
+                                            align="end">
                                             <NavDropdown.Item
                                                 onClick={() => setShowSettings(true)}
                                                 className={"settings-dropdown"}>Impostazioni</NavDropdown.Item>
