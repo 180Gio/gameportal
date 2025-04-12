@@ -1,8 +1,9 @@
 #game-searcher-root-div {
     display: flex;
     justify-content: space-between;
+    padding-bottom: 1rem;
 }
 
 #game-searcher-button-row {
-    
+
 }

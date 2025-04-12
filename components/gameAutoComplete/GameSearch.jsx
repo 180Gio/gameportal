@@ -1,39 +1,33 @@
 import {MenuItem, Typeahead} from "react-bootstrap-typeahead";
-import {getSteamAppInfo, getSteamAutocomplete} from "../../external/steamApi.js";
-import {useState} from "react";
 import {useToast} from "../toast/ToastProvider.jsx";
+import {useState} from "react";
+import {getSteamAppInfo, getSteamAutocomplete} from "../../external/steamApi.js";
+import "/src/css/gameSearch.css"
 
-export function GameSearcher({setSteamAppInfo}) {
+export default function GameSearch({setSearchGame, disabled}) {
     const [suggestions, setSuggestions] = useState([]);
     const [selectedGame, setSelectedGame] = useState([]);
-    const [autoCompleteTime, setAutoCompleteTime] = useState(0);
     const {addToast} = useToast();
 
     function handleSearch(game) {
-        const now = Date.now();
-        if (autoCompleteTime === 0 || now - autoCompleteTime > 500) {
-            setAutoCompleteTime(now);
-            if (game.length > 0) {
-                let autocomplete = getSteamAutocomplete(game, 10);
-                setSuggestions(autocomplete);
-            } else {
-                setSuggestions([]);
-            }
+        if (game.length > 0) {
+            let autocomplete = getSteamAutocomplete(game, 10);
+            setSuggestions(autocomplete);
+        } else {
+            setSuggestions([]);
         }
     }
-
 
     function searchGame() {
         getSteamAppInfo(selectedGame[0]).then(appInfo => {
             if (appInfo && appInfo.success) {
-                setSteamAppInfo(appInfo.data);
-                console.log(appInfo)
+                setSearchGame(appInfo.data);
             } else {
-                addToast("Ricerca gioco", "Il gioco che hai ricercato non è stato trovato, controlla che il nome sia corretto", "warning")
+                addToast("Ricerca gioco", "Il gioco che hai ricercato non è stato trovato, " +
+                    "controlla che il nome sia corretto", "warning")
             }
         })
     }
-
 
     return (
         <>
@@ -49,6 +43,7 @@ export function GameSearcher({setSteamAppInfo}) {
                     selected={selectedGame}
                     positionFixed={true}
                     onInputChange={game => handleSearch(game)}
+                    disabled={disabled}
                 />
                 <div id={"game-searcher-button-row"}>
                     <button className={"btn btn-lg btn-outline-info"} onClick={() => setSelectedGame([])}
