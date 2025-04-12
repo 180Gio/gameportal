@@ -1,11 +1,11 @@
 import {useEffect, useState} from "react";
-import {getSteamNews} from "../../external/steamApi.js";
-import {isObjectEmpty} from "../../src/util.js";
-import LoadingComponent from "../LoadingComponent.jsx";
-import GameNews from "../GameNews.jsx";
+import {getSteamNews} from "../../../external/steamApi.js";
+import {isObjectEmpty} from "../../../src/util.js";
+import LoadingComponent from "../../utilComponent/LoadingComponent.jsx";
+import GameNews from "./GameNews.jsx";
 import {Row} from "react-bootstrap";
-import GameSearch from "../gameAutoComplete/GameSearch.jsx";
-import ErrorComponent from "../ErrorComponent.jsx";
+import GameSearch from "../../utilComponent/GameSearch.jsx";
+import ErrorComponent from "../../utilComponent/ErrorComponent.jsx";
 
 export default function NewsPage() {
     const [gamesNews, setGamesNews] = useState([]);
@@ -56,11 +56,9 @@ export default function NewsPage() {
                 <LoadingComponent text={"Caricamento delle notizie"}/> : gamesNews.length > 0 ?
                     <>
                         {gamesNews.map((gameInfo, index) =>
-                            <div key={index}>
-                                <Row>
-                                    <GameNews gameInfo={gameInfo} sameGame={!isObjectEmpty(searchGame)}/>
-                                </Row>
-                            </div>
+                            <Row key={index}>
+                                <GameNews gameInfo={gameInfo} sameGame={!isObjectEmpty(searchGame)} index={index}/>
+                            </Row>
                         )}
                     </> : <GameNews/>
             }

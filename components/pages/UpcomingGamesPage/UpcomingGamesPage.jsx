@@ -1,11 +1,11 @@
-import {getUpcomingGames} from "../../external/rawgApi.js";
+import {getUpcomingGames} from "../../../external/rawgApi.js";
 import {Pagination, Row} from "react-bootstrap";
 import {useEffect, useState} from "react";
-import "../../src/css/upcomingGames.css"
-import GameCard from "../GameCard.jsx";
-import LoadingComponent from "../LoadingComponent.jsx";
-import {isArrayEmpty} from "../../src/util.js";
-import ErrorComponent from "../ErrorComponent.jsx";
+import "../../../src/css/pages/upcomingGames.css"
+import GameCard from "./GameCard.jsx";
+import LoadingComponent from "../../utilComponent/LoadingComponent.jsx";
+import {isArrayEmpty} from "../../../src/util.js";
+import ErrorComponent from "../../utilComponent/ErrorComponent.jsx";
 
 export default function UpcomingGamesPage({userDb}) {
 
@@ -46,12 +46,13 @@ export default function UpcomingGamesPage({userDb}) {
     return (
         <>
             {error ? <ErrorComponent/> : isArrayEmpty(upcomingGames) ?
-                <LoadingComponent text={"Caricamento giochi in uscita"}/>
-                :
+                <LoadingComponent text={"Caricamento giochi in uscita"}/> :
                 <>
                     <Row xs={1} md={3} className="g-4">
                         {upcomingGames.map((game, idx) => (
-                            <GameCard game={game} idx={idx} email={userDb.email}/>
+                            <div key={idx}>
+                                <GameCard game={game} idx={idx} email={userDb.email}/>
+                            </div>
                         ))}
                     </Row>
                     <Row>

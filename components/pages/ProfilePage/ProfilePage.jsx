@@ -1,10 +1,10 @@
 import {useEffect, useState} from "react";
-import {getSteamUserInfo} from "../../external/steamApi.js";
+import {getSteamUserInfo} from "../../../external/steamApi.js";
 import {Col, Image, Row} from "react-bootstrap";
-import "../../src/css/profilePage.css"
-import LoadingComponent from "../LoadingComponent.jsx";
-import GameDisplay from "../GameDisplay.jsx";
-import ErrorComponent from "../ErrorComponent.jsx";
+import "../../../src/css/pages/profilePage.css"
+import LoadingComponent from "../../utilComponent/LoadingComponent.jsx";
+import GameDisplay from "./GameDisplay.jsx";
+import ErrorComponent from "../../utilComponent/ErrorComponent.jsx";
 
 export default function ProfilePage({userDb}) {
     const [steamUserData, setSteamUserData] = useState({})
@@ -26,12 +26,8 @@ export default function ProfilePage({userDb}) {
     return (
         <>
             {error ?
-                <ErrorComponent/>
-                : loading ? (
-                        <>
-                            <LoadingComponent text={"Caricamento dati del profilo Steam"}/>
-                        </>
-                    ) :
+                <ErrorComponent/> :
+                loading ? <LoadingComponent text={"Caricamento dati del profilo Steam"}/> :
                     <>
                         <Row>
                             <h4>Profilo di {steamUserData.userInfo.steamUsername}</h4>
@@ -46,12 +42,9 @@ export default function ProfilePage({userDb}) {
                                 </Row>
                                 <Row className={"d-flex"}>
                                     {steamUserData.recentlyPlayedGames.map((game, idx) => (
-                                        <GameDisplay game={game} idx={idx}/>
+                                        <GameDisplay game={game} key={idx}/>
                                     ))}
                                 </Row>
-                            </Col>
-                            <Col>
-
                             </Col>
                         </Row>
                     </>

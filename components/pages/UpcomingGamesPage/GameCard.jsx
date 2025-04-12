@@ -1,11 +1,11 @@
 import {Card, Col, OverlayTrigger, Tooltip} from "react-bootstrap";
-import {formatDate} from "../src/util.js";
-import {useToast} from "./toast/ToastProvider.jsx";
+import {formatDate} from "../../../src/util.js";
+import {useToast} from "../../utilComponent/toast/ToastProvider.jsx";
 import {
     createGamesWaitingFor,
     deleteWaitingForGame,
     isUserWaitingForGame
-} from "../firestore/gamesWaitingForService.js";
+} from "../../../firestore/gamesWaitingForService.js";
 import {useEffect, useState} from "react";
 
 export default function GameCard({game, idx, email}) {
@@ -76,6 +76,11 @@ export default function GameCard({game, idx, email}) {
         }
     }
 
+    function getGameTags(maxNumber) {
+        return game.tags ? game.tags.filter(gameTag => gameTag.language === "eng" || gameTag.language === "ita")
+            .slice(0, maxNumber) : [];
+    }
+
 
     return (
         <>
@@ -95,8 +100,7 @@ export default function GameCard({game, idx, email}) {
                                         "notifica il giorno di uscita!" : "Non riceverai alcuna notifica " +
                                         "il giorno dell'uscita"}
                                 </Tooltip>
-                            }
-                        >
+                            }>
                             <a onClick={toggleWaitingStatus} type={"button"}>
                                 {waitingForGame ?
                                     <i className="bi bi-bell-fill"></i> : <i className="bi bi-bell-slash"></i>
@@ -104,25 +108,24 @@ export default function GameCard({game, idx, email}) {
 
                             </a>
                         </OverlayTrigger>
-
                     </Card.Title>
                     <Card.Body className={"pt-0"}>
                                 <span className={"platform-row"}>
-                                    {game["platforms"]?.map((plat, i) => (
-                                        <span key={idx + "." + i}>{getPlatformPill(plat)}</span>
+                                    {game.platforms?.map((platform, index) => (
+                                        <span key={idx + "." + index}>{getPlatformPill(platform)}</span>
                                     ))}
                                 </span>
                         <Card.Text className={"pt-4"}>
                             <b>Data di uscita:</b>&nbsp;{formatDate(game["released"])}
                             <span className={"genre-row pt-2"}>
-                                        {game["genres"]?.map((genre, i) => (
-                                            <span key={idx + "." + i}>{getGenreElement(genre)}</span>
+                                        {game.genres?.map((genre, index) => (
+                                            <span key={idx + "." + index}>{getGenreElement(genre)}</span>
                                         ))}
                                     </span>
                         </Card.Text>
                         <Card.Footer className={"pt-0 border-top-0"}>
-                            {game["tags"]?.filter(gameTag => gameTag["language"] === "eng" || gameTag["language"] === "ita").slice(0, 5).map((gameTag, i) => (
-                                <span key={idx + "." + i}>{getTagElement(gameTag)}</span>
+                            {getGameTags(5).map((gameTag, index) => (
+                                <span key={idx + "." + index}>{getTagElement(gameTag)}</span>
                             ))}
                         </Card.Footer>
                     </Card.Body>

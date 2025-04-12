@@ -1,8 +1,7 @@
 import {useState} from "react";
 import "react-bootstrap-typeahead/css/Typeahead.css";
-import "../../src/css/gameFinder.css"
-import SteamAppInfo from "../SteamAppInfo.jsx";
-import {GameSearcherBar} from "../gameAutoComplete/GameSearcherBar.jsx";
+import "../../../src/css/pages/gameFinder.css"
+import SteamAppInfo from "./SteamAppInfo.jsx";
 
 
 export default function GameFinderPage() {

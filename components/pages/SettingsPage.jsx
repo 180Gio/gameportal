@@ -2,8 +2,8 @@ import {Button, Modal} from "react-bootstrap";
 import React, {useState} from "react";
 import {deleteUser, updateNotificationPreferences, updateUsername} from "../../firestore/userService.js";
 import {removeUser} from "../../firebase/auth.js";
-import "/src/css/settings.css"
-import {useToast} from "../toast/ToastProvider.jsx";
+import "/src/css/pages/settings.css"
+import {useToast} from "../utilComponent/toast/ToastProvider.jsx";
 
 export default function SettingsPage({setShowSettings, showSettings, userDb, setUserDb, setLoggedIn}) {
     const [showDeleteModal, setShowDeleteModal] = useState(false);

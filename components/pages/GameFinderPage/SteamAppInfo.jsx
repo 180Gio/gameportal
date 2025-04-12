@@ -1,4 +1,4 @@
-import "../src/css/gameFinder.css"
+import "../../../src/css/pages/gameFinder.css"
 import {Carousel, Image, Row} from "react-bootstrap";
 
 export default function SteamAppInfo({steamAppInfo}) {

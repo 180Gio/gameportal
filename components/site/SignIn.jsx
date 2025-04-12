@@ -4,10 +4,11 @@ import {
     loginWithGoogle,
     registerWithEmailAndPassword,
     sendVerification
-} from "../firebase/auth.js";
-import {getUser} from "../firestore/userService.js";
-import "../src/css/signin.css"
-import {useToast} from "./toast/ToastProvider.jsx";
+} from "../../firebase/auth.js";
+import {getUser} from "../../firestore/userService.js";
+import "../../src/css/components/signin.css"
+import {useToast} from "../utilComponent/toast/ToastProvider.jsx";
+import {Button, Col, Container, Row} from "react-bootstrap";
 
 export default function SignIn({setLoggedIn, setUserDb}) {
     const [isRegister, setIsRegister] = useState(true);
@@ -78,50 +79,59 @@ export default function SignIn({setLoggedIn, setUserDb}) {
     }
 
     return (
-        <div className="user-login">
-            <div className="login-container">
-                <h2>{isRegister ? "Registrati" : "Accedi"}</h2>
-                <div className={"mt-4"}>
-                    <form onSubmit={isRegister ? doRegistration : doLogin}>
+        <div className={"user-login"}>
+            <form onSubmit={isRegister ? doRegistration : doLogin}>
+                <Container className={"login-container"}>
+                    <Row>
+                        <h2>{isRegister ? "Registrati" : "Accedi"}</h2>
+                    </Row>
+                    <Row className={"mt-4"}>
                         <div className="input-group">
                             <input type="email" id="email" name="email"
                                    onChange={(e) => setEmail(e.target.value)} autoComplete={"email"}/>
-                            <label htmlFor="email">Email</label>
+                            <label htmlFor="email">Indirizzo email</label>
                         </div>
-
+                    </Row>
+                    <Row>
                         <div className="input-group">
                             <input type="password" id="password" name="password"
                                    onChange={(e) => setPassword(e.target.value)}
                                    autoComplete={isRegister ? "new-password" : "password"}/>
                             <label htmlFor="password">Password</label>
                         </div>
-
-                        {isRegister ?
+                    </Row>
+                    {isRegister ?
+                        <Row>
                             <div className="input-group">
                                 <input type="password" id="confirm-password" name="confirm-password"
                                        onChange={(e) => setConfirmPassword(e.target.value)}
                                        autoComplete={"new-password"}/>
                                 <label htmlFor="password">Conferma password</label>
                             </div>
-                            : null}
-
-                        <button type="submit"
-                                className={"btn btn-primary-orange mb-4"}>{isRegister ? "Registrati" : "Accedi"}</button>
-                        <br/>
-
-                    </form>
-                    <button className="btn btn-info" onClick={() => setIsRegister(!isRegister)}>
-                        {isRegister ? "Hai già un account? Accedi qui!" : "Non hai un account? Registrati qui!"}
-                    </button>
-                </div>
-                <br/>
-                <div>
-                    <div className="separator mb-4">Oppure</div>
-                    <button className={"btn btn-light"} onClick={() => doGoogleLogin()}>
-                        <img src={"./GoogleIcon.ico"} alt={"Google Icon"}/> Continua con Google
-                    </button>
-                </div>
-            </div>
+                        </Row>
+                        : //TODO password dimenticata
+                        null}
+                    <Row className={"d-flex justify-content-center"}>
+                        <Col md={4} offset-md={4}>
+                            <Button type="submit"
+                                    variant={"primary-orange"}>{isRegister ? "Registrati" : "Accedi"}</Button>
+                        </Col>
+                    </Row>
+                    <Row className={"d-flex justify-content-center py-4"}>
+                        <Col>
+                            <Button variant="info" onClick={() => setIsRegister(!isRegister)}>
+                                {isRegister ? "Hai già un account? Accedi qui!" : "Non hai un account? Registrati qui!"}
+                            </Button>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <div className="separator mb-4">Oppure</div>
+                        <Button variant={"google"} className={"google-btn"} onClick={() => doGoogleLogin()}>
+                            <img src={"./GoogleIcon.ico"} alt={"Google Icon"}/> Continua con Google
+                        </Button>
+                    </Row>
+                </Container>
+            </form>
         </div>
     )
 }

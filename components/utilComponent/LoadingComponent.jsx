@@ -1,4 +1,5 @@
 import {Col, Row, Spinner} from "react-bootstrap";
+import "/src/css/utilComponents/loadingComponent.css"
 
 export default function LoadingComponent({text}) {
     return (

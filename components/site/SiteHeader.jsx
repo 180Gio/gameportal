@@ -1,8 +1,8 @@
-import {logout} from "../firebase/auth.js";
+import {logout} from "../../firebase/auth.js";
 import {Button, ButtonGroup, Image, NavDropdown} from "react-bootstrap";
 import {useState} from "react";
-import SettingsPage from "./pages/SettingsPage.jsx";
-import "../src/css/header.css"
+import SettingsPage from "../pages/SettingsPage.jsx";
+import "../../src/css/components/header.css"
 
 
 export default function SiteHeader({setLoggedIn, setPage, page, userDb, setUserDb}) {

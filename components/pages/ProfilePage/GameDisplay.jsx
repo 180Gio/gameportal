@@ -1,7 +1,7 @@
 import {Col, Container, Image, ProgressBar, Row} from "react-bootstrap";
-import "/src/css/gameDisplayer.css"
+import "/src/css/components/gameDisplayer.css"
 
-export default function GameDisplay({game, idx}) {
+export default function GameDisplay({game}) {
 
     function getProgressBarVariant() {
         if (calculateAchievementsPercentage() === 100) {

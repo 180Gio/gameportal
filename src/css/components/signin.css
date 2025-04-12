@@ -40,3 +40,25 @@
 .separator:not(:empty)::after {
     margin-left: .25em;
 }
+
+.btn-google {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    background-color: #ffffff;
+    border: 1px solid #ffffff;
+    border-radius: 5px;
+    color: #222831;
+    font-weight: bold;
+}
+
+.btn-google img {
+    width: 30px;
+    margin-right: 10px;
+}
+
+.btn-google:hover {
+    background-color: #e7e7e7;
+    color: #222831;
+}

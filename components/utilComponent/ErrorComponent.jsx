@@ -1,4 +1,5 @@
 import {Alert} from "react-bootstrap";
+import "/src/css/utilComponents/errorComponent.css"
 
 export default function ErrorComponent() {
     return (<>

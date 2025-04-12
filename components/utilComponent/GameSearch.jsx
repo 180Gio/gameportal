@@ -1,8 +1,8 @@
 import {Typeahead} from "react-bootstrap-typeahead";
-import {useToast} from "../toast/ToastProvider.jsx";
+import {useToast} from "./toast/ToastProvider.jsx";
 import {useState} from "react";
 import {getSteamAppInfo, getSteamAutocomplete} from "../../external/steamApi.js";
-import "/src/css/gameSearch.css"
+import "/src/css/components/gameSearch.css"
 import {Col, Row} from "react-bootstrap";
 
 export default function GameSearch({setSearchGame, disabled, setLoading}) {

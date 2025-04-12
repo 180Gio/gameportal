@@ -1,16 +1,16 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, {useEffect, useState} from "react";
-import SiteHeader from "./SiteHeader.jsx";
-import SignIn from "./SignIn.jsx";
-import UpcomingGamesPage from "./pages/UpcomingGamesPage.jsx";
-import ProfilePage from "./pages/ProfilePage.jsx";
-import {ToastProvider} from './toast/ToastProvider.jsx';
-import ToastNotifications from "./toast/ToastNotification.jsx";
+import SiteHeader from "./site/SiteHeader.jsx";
+import SignIn from "./site/SignIn.jsx";
+import UpcomingGamesPage from "./pages/UpcomingGamesPage/UpcomingGamesPage.jsx";
+import ProfilePage from "./pages/ProfilePage/ProfilePage.jsx";
+import {ToastProvider} from './utilComponent/toast/ToastProvider.jsx';
+import ToastNotifications from "./utilComponent/toast/ToastNotification.jsx";
 import "../src/css/index.css"
 import {onAuthStateChanged} from "firebase/auth";
 import {auth} from "../firebase/firebase.js";
 import {getUser} from "../firestore/userService.js";
-import NewsPage from "./pages/NewsPage.jsx";
+import NewsPage from "./pages/NewsPage/NewsPage.jsx";
 
 export default function App() {
     const [loggedIn, setLoggedIn] = useState(false);
@@ -23,16 +23,16 @@ export default function App() {
             setUserDb(null)
         }
     }, [loggedIn])
+
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
+        onAuthStateChanged(auth, (user) => {
             if (user && user.emailVerified) {
                 getUser(user.email).then(userDb => {
                     setLoggedIn(true)
                     setUserDb(userDb)
                 })
             }
-        });
-        return () => unsubscribe();
+        })
     }, []);
 
     function renderPage() {
@@ -40,6 +40,7 @@ export default function App() {
             case 1:
                 return <UpcomingGamesPage userDb={userDb}/>
             case 2:
+                //TODO notifiche per gioco
                 return <NewsPage/>
             case 3:
                 return <ProfilePage userDb={userDb}/>
