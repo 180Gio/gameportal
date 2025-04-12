@@ -5,16 +5,22 @@ import "../../src/css/upcomingGames.css"
 import GameCard from "../GameCard.jsx";
 import LoadingComponent from "../LoadingComponent.jsx";
 import {isArrayEmpty} from "../../src/util.js";
+import ErrorComponent from "../ErrorComponent.jsx";
 
 export default function UpcomingGamesPage({userDb}) {
 
     const [upcomingGames, setUpcomingGames] = useState([]);
     const [pages, setPages] = useState([]);
+    const [error, setError] = useState(false);
 
     async function loadUpcomingGames(pageNumber) {
-        const data = await getUpcomingGames(pageNumber);
-        setUpcomingGames(data.results);
-        loadPages(data.total, data.nextPage)
+        try {
+            const data = await getUpcomingGames(pageNumber);
+            setUpcomingGames(data.results);
+            loadPages(data.total, data.nextPage)
+        } catch (error) {
+            setError(true);
+        }
     }
 
     useEffect(() => {
@@ -39,7 +45,7 @@ export default function UpcomingGamesPage({userDb}) {
 
     return (
         <>
-            {isArrayEmpty(upcomingGames) ?
+            {error ? <ErrorComponent/> : isArrayEmpty(upcomingGames) ?
                 <LoadingComponent text={"Caricamento giochi in uscita"}/>
                 :
                 <>

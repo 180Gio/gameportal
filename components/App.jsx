@@ -10,6 +10,7 @@ import "../src/css/index.css"
 import {onAuthStateChanged} from "firebase/auth";
 import {auth} from "../firebase/firebase.js";
 import {getUser} from "../firestore/userService.js";
+import NewsPage from "./pages/NewsPage.jsx";
 
 export default function App() {
     const [loggedIn, setLoggedIn] = useState(false);
@@ -39,8 +40,7 @@ export default function App() {
             case 1:
                 return <UpcomingGamesPage userDb={userDb}/>
             case 2:
-                // return <NewsPage/>
-                return <p>Page in construction</p>
+                return <NewsPage/>
             case 3:
                 return <ProfilePage userDb={userDb}/>
             case 4:

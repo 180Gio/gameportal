@@ -1,9 +1,10 @@
 import {useEffect, useState} from "react";
 import {getSteamUserInfo} from "../../external/steamApi.js";
-import {Alert, Col, Image, Row} from "react-bootstrap";
+import {Col, Image, Row} from "react-bootstrap";
 import "../../src/css/profilePage.css"
 import LoadingComponent from "../LoadingComponent.jsx";
 import GameDisplay from "../GameDisplay.jsx";
+import ErrorComponent from "../ErrorComponent.jsx";
 
 export default function ProfilePage({userDb}) {
     const [steamUserData, setSteamUserData] = useState({})
@@ -25,15 +26,7 @@ export default function ProfilePage({userDb}) {
     return (
         <>
             {error ?
-                <div className={"d-flex justify-content-center align-items-center"}>
-                    <Alert variant="custom">
-                        <p>Si è verificato un errore nel recupero dei dati, mangia un pezzo di torta e riprova più
-                            tardi!</p>
-                        <br></br>
-                        <img src={"/cake.png"} alt="cake" className={"color-white"}
-                             style={{width: "10%"}}/>
-                    </Alert>
-                </div>
+                <ErrorComponent/>
                 : loading ? (
                         <>
                             <LoadingComponent text={"Caricamento dati del profilo Steam"}/>
@@ -64,6 +57,5 @@ export default function ProfilePage({userDb}) {
                     </>
             }
         </>
-
     )
 }

@@ -7,7 +7,7 @@ export default defineConfig({
     plugins: [react(), VitePWA({
         registerType: "autoUpdate",
         devOptions: {
-            enabled: true,
+            enabled: false //Re-enable later
         },
         manifest: {
             name: "GamePortal - Un portale nel mondo dei videogiochi",

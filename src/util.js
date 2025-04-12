@@ -7,7 +7,7 @@ export function isObjectEmpty(object) {
 }
 
 export function isArrayEmpty(array) {
-    return array.length === 0;
+    return array?.length === 0;
 }
 
 export function truncateNumberToDigit(number, digits) {

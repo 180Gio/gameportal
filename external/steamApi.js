@@ -1,4 +1,4 @@
-import {truncateNumberToDigit} from "../src/util.js";
+import {isObjectEmpty, truncateNumberToDigit} from "../src/util.js";
 
 const steamApiKey = import.meta.env.VITE_STEAM_API_KEY
 
@@ -33,14 +33,14 @@ export function getSteamAppName(steamAppId) {
 }
 
 export async function getSteamNews(game, newsCount = 1) {
-    // if (game) {
-    //     let news = [];
-    //     await fetch("/steam/ISteamNews/GetNewsForApp/v0002/?appid=" + game.appid + "&count=" + newsCount + "&maxlength=300&format=json")
-    //         .then(response => response.text()
-    //             .then((data) => news = JSON.parse(data).appnews.newsitems)).catch(console.error)
-    //     
-    //     return news;
-    // }
+    if (game) {
+        const response = await fetch("/steam/ISteamNews/GetNewsForApp/v0002/?appid=" + game.appid + "&count=" + newsCount + "&maxlength=300&format=json");
+        let data = await response.json()
+        if (data && !isObjectEmpty(data)) {
+            return data.appnews.newsitems;
+        }
+    }
+    return [];
 }
 
 export function getRandomGames(numberOfGames) {
