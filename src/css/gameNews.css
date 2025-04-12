@@ -2,13 +2,13 @@
     background-color: transparent;
     color: white;
     border: 3px solid white;
-    margin-bottom: 10px;
 }
 
 .news-title {
     font-weight: bold;
     font-size: 20px;
-    padding: 10px;
+    padding-left: 10px;
+    padding-top: 15px;
 }
 
 .news-link {

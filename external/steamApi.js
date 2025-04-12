@@ -20,7 +20,19 @@ export async function getSteamAppInfo(steamAppName) {
 
 export function getSteamAutocomplete(steamGameName, maxResults) {
     let allGames = steamDataMap.getAllGameNames()
-    allGames = allGames.filter(game => game.toLowerCase().includes(steamGameName.toLowerCase())).slice(0, maxResults);
+    let isGame = (gameName) => {
+        let toLowerCase = gameName.toLowerCase();
+        if (toLowerCase.includes(" dlc") || toLowerCase.includes(" set")
+            || toLowerCase.includes(" pack ") || toLowerCase.includes(" artbook")
+            || toLowerCase.includes("soundtrack") || toLowerCase.includes("guide")
+            || toLowerCase.includes("bonus") || toLowerCase.includes(" deluxe")
+            || toLowerCase.includes("expansion") || toLowerCase.includes(" trailer ") || toLowerCase.includes(" video ")) {
+            return false;
+        }
+        return true;
+    }
+    allGames = allGames.filter(game => game.toLowerCase()
+        .includes(steamGameName.toLowerCase()) && isGame(game)).slice(0, maxResults);
     return [...new Set(allGames)]
 }
 
@@ -33,14 +45,18 @@ export function getSteamAppName(steamAppId) {
 }
 
 export async function getSteamNews(game, newsCount = 1) {
-    if (game) {
-        const response = await fetch("/steam/ISteamNews/GetNewsForApp/v0002/?appid=" + game.appid + "&count=" + newsCount + "&maxlength=300&format=json");
-        let data = await response.json()
-        if (data && !isObjectEmpty(data)) {
-            return data.appnews.newsitems;
+    try {
+        if (game) {
+            const response = await fetch("/steam/ISteamNews/GetNewsForApp/v0002/?appid=" + game.appid + "&count=" + newsCount + "&maxlength=300&format=json");
+            let data = await response.json()
+            if (data && !isObjectEmpty(data)) {
+                return data.appnews.newsitems;
+            }
         }
+        return [];
+    } catch (err) {
+        throw err;
     }
-    return [];
 }
 
 export function getRandomGames(numberOfGames) {
@@ -154,7 +170,6 @@ class SteamDataSingleton {
     }
 
     getAllGameNames() {
-        //TODO prendere solo giochi?
         return Object.values(this.map).map(game => game.name);
     }
 }
