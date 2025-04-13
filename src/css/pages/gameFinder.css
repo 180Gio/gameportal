@@ -1,35 +1,12 @@
-.rbt-input-main {
+.introduction {
+    border: 2px solid #12bee6;
+    border-radius: 5px;
     padding: 10px;
-    border-radius: 10px;
-    background-color: transparent;
-    color: white;
+    max-width: 50%;
 }
 
-.rbt-input-main:focus {
-    padding: 10px;
-    border-radius: 10px;
-    background-color: transparent;
-    color: white;
-}
-
-.rbt-input-main::placeholder {
-    padding: 10px;
-    border-radius: 10px;
-    background-color: transparent;
-    color: white;
-}
-
-.rbt {
-    background-color: transparent;
-    border: 1px solid white;
-    border-radius: 10px;
-}
-
-
-.rbt a {
-    padding: 5px;
-}
-
-.rbt-input-hint {
-    color: #12bee6 !important;
+.introduction p {
+    padding-top: 25px;
+    padding-left: 15px;
+    padding-bottom: 20px;
 }
