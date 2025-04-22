@@ -4,7 +4,6 @@ import "/src/css/pages/gameFinder.css"
 import GameSearch from "../../utilComponent/GameSearch.jsx";
 import {isObjectEmpty} from "../../../src/util.js";
 import LoadingComponent from "../../utilComponent/LoadingComponent.jsx";
-import ErrorComponent from "../../utilComponent/ErrorComponent.jsx";
 import {Col, Container, Row} from "react-bootstrap";
 import SteamAppInfo from "./SteamAppInfo.jsx";
 
@@ -12,8 +11,6 @@ import SteamAppInfo from "./SteamAppInfo.jsx";
 export default function GameFinderPage() {
     const [searchGame, setSearchGame] = useState({});
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(false);
-    const [game, setGame] = useState({});
 
     useEffect(() => {
         setLoading(false);
@@ -23,7 +20,7 @@ export default function GameFinderPage() {
         <>
             <GameSearch setSearchGame={setSearchGame} setLoading={setLoading}/>
             {isObjectEmpty(searchGame) ?
-                error ? <ErrorComponent/> : loading ? <LoadingComponent text={"Caricamento dei dati sul gioco"}/> :
+                loading ? <LoadingComponent text={"Caricamento dei dati sul gioco"}/> :
                     <>
                         <Container>
                             <Row className={"d-flex justify-content-center align-items-center"}>
