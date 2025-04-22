@@ -12,12 +12,25 @@ import {auth} from "../firebase/firebase.js";
 import {getUser} from "../firestore/userService.js";
 import NewsPage from "./pages/NewsPage/NewsPage.jsx";
 import GameFinderPage from "./pages/GameFinderPage/GameFinderPage.jsx";
+import OfflineComponent from "./utilComponent/OfflineComponent.jsx";
 
 export default function App() {
     const [loggedIn, setLoggedIn] = useState(false);
     const [userDb, setUserDb] = useState(null);
+    const [isOnline, setIsOnline] = useState(true);
 
     const [page, setPage] = useState(1);
+
+    function checkIfOnline() {
+        fetch('https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_92x30dp.png', {
+            mode: 'no-cors',
+            cache: "no-cache"
+        }).then(() => {
+            setIsOnline(true)
+        }).catch(() => {
+            setIsOnline(false)
+        });
+    }
 
     useEffect(() => {
         if (!loggedIn) {
@@ -34,6 +47,10 @@ export default function App() {
                 })
             }
         })
+
+        checkIfOnline();
+        window.addEventListener("online", () => checkIfOnline());
+        window.addEventListener("offline", () => checkIfOnline());
     }, []);
 
     function renderPage() {
@@ -55,7 +72,7 @@ export default function App() {
             <ToastProvider>
                 <SiteHeader setLoggedIn={setLoggedIn} setPage={setPage} page={page} userDb={userDb}
                             setUserDb={setUserDb}/>
-                {loggedIn ?
+                {!isOnline ? <OfflineComponent/> : loggedIn ?
                     <div className="g-4 px-5">
                         {renderPage()}
                     </div> :
