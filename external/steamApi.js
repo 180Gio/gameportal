@@ -9,6 +9,10 @@ export async function getSteamID(username) {
 
 export async function getSteamAppInfo(steamAppName) {
     let steamAppId = getSteamAppId(steamAppName);
+    return await getSteamAppInfoFromId(steamAppId);
+}
+
+export async function getSteamAppInfoFromId(steamAppId) {
     let steamAppInfo = {}
     if (steamAppId) {
         await fetch("/store/appdetails?appids=" + steamAppId)
@@ -32,7 +36,10 @@ export function getSteamAutocomplete(steamGameName, maxResults) {
         return true;
     }
     allGames = allGames.filter(game => game.toLowerCase()
-        .includes(steamGameName.toLowerCase()) && isGame(game)).slice(0, maxResults);
+        .includes(steamGameName.toLowerCase()) && isGame(game));
+    if (maxResults > 0) {
+        allGames = allGames.slice(0, maxResults)
+    }
     return [...new Set(allGames)]
 }
 

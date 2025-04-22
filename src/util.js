@@ -13,3 +13,7 @@ export function isArrayEmpty(array) {
 export function truncateNumberToDigit(number, digits) {
     return Math.trunc(number * Math.pow(10, digits)) / Math.pow(10, digits)
 }
+
+export function mergeArray(array, separator) {
+    return array.join(separator);
+}

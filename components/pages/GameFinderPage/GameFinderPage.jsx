@@ -16,15 +16,12 @@ export default function GameFinderPage() {
     const [game, setGame] = useState({});
 
     useEffect(() => {
-        if (!isObjectEmpty(searchGame)) {
-            console.log(searchGame);
-        }
         setLoading(false);
     }, [searchGame])
 
     return (
         <>
-            <GameSearch setSearchGame={setSearchGame} disabled={loading || error} setLoading={setLoading}/>
+            <GameSearch setSearchGame={setSearchGame} setLoading={setLoading}/>
             {isObjectEmpty(searchGame) ?
                 error ? <ErrorComponent/> : loading ? <LoadingComponent text={"Caricamento dei dati sul gioco"}/> :
                     <>
