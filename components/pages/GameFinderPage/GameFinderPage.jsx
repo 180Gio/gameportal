@@ -8,7 +8,7 @@ import {Col, Container, Row} from "react-bootstrap";
 import SteamAppInfo from "./SteamAppInfo.jsx";
 
 
-export default function GameFinderPage() {
+export default function GameFinderPage({userDb}) {
     const [searchGame, setSearchGame] = useState({});
     const [loading, setLoading] = useState(false);
 
@@ -32,7 +32,7 @@ export default function GameFinderPage() {
                             </Row>
                         </Container>
                     </> :
-                <SteamAppInfo steamAppInfo={searchGame}/>
+                <SteamAppInfo steamAppInfo={searchGame} email={userDb.email}/>
             }
         </>
     );

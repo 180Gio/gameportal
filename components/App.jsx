@@ -112,12 +112,11 @@ export default function App() {
             case 1:
                 return <UpcomingGamesPage userDb={userDb}/>
             case 2:
-                //TODO notifiche per gioco
                 return <NewsPage/>
             case 3:
                 return <ProfilePage userDb={userDb}/>
             case 4:
-                return <GameFinderPage/>
+                return <GameFinderPage userDb={userDb}/>
         }
     }
 
