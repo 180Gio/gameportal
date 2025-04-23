@@ -27,7 +27,26 @@ export default defineConfig({
                 },
             ],
             lang: "it-IT",
-            orientation: "portrait"
+            orientation: "portrait",
+            screenshots: [
+                {
+                    src: "/screenshot-wide.png",
+                    sizes: "1280x720",
+                    type: "image/png",
+                    form_factor: "wide"
+                },
+                {
+                    src: "/screenshot-mobile.png",
+                    sizes: "720x1280",
+                    type: "image/png"
+                },
+                {
+                    "src": "/maskable-icon.png",
+                    "sizes": "512x512",
+                    "type": "image/png",
+                    "purpose": "maskable"
+                }
+            ]
         },
         workbox: {
             runtimeCaching: [
