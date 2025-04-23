@@ -26,3 +26,9 @@ export async function deleteWaitingForGame(email, gameName) {
     let gameWaitingForRef = await getGamesWaitingForRef(email, gameName);
     await deleteDoc(gameWaitingForRef.ref);
 }
+
+export async function getGamesWaitingFor(email) {
+    const queryGames = query(collection(db, "gamesWaitingFor"), where("userEmail", "==", email));
+    const gamesWaitingList = await getDocs(queryGames);
+    return gamesWaitingList.empty ? null : gamesWaitingList.docs.map(game => game.data());
+}

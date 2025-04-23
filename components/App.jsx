@@ -13,6 +13,10 @@ import {getUser} from "../firestore/userService.js";
 import NewsPage from "./pages/NewsPage/NewsPage.jsx";
 import GameFinderPage from "./pages/GameFinderPage/GameFinderPage.jsx";
 import OfflineComponent from "./utilComponent/OfflineComponent.jsx";
+import {deleteWaitingForGame, getGamesWaitingFor} from "../firestore/gamesWaitingForService.js";
+import {getGamesNewsList} from "../firestore/gamesNewsService.js";
+import {getSteamNews} from "../external/steamApi.js";
+import {isArrayEmpty} from "../src/util.js";
 
 export default function App() {
     const [loggedIn, setLoggedIn] = useState(false);
@@ -35,6 +39,8 @@ export default function App() {
     useEffect(() => {
         if (!loggedIn) {
             setUserDb(null)
+        } else {
+            checkNotifications();
         }
     }, [loggedIn])
 
@@ -52,6 +58,54 @@ export default function App() {
         window.addEventListener("online", () => checkIfOnline());
         window.addEventListener("offline", () => checkIfOnline());
     }, []);
+
+    async function createNotification(title, body) {
+        if (Notification.permission !== "granted") {
+            await Notification.requestPermission();
+        }
+        if (Notification.permission === "granted") {
+            new Notification(title, {body: body});
+        }
+    }
+
+    function checkNotifications() {
+        if (Notification.permission !== "denied") {
+            let notificationPreferences = userDb.notificationPreferences;
+            if (notificationPreferences.gameOut) {
+                getGamesWaitingFor(userDb.email).then(gamesWaiting => {
+                    let today = new Date();
+                    let releasedLastWeek = gamesWaiting.filter(game => {
+                        let splitDate = game.releaseDate.split("/");
+                        let gameDate = new Date(Date.UTC(splitDate[2], splitDate[1] - 1, splitDate[0]));
+                        return gameDate <= today;
+                    })
+                    releasedLastWeek.forEach(game => {
+                        createNotification("GamePortal - Finalmente!", "Finalmente " + game.gameName + " è uscito!");
+                        deleteWaitingForGame(userDb.email, game.gameName)
+                    })
+                })
+            }
+            if (notificationPreferences.news) {
+                getGamesNewsList(userDb.email).then(gamesNews => {
+                    let todayMillis = new Date().getTime();
+                    let lastWeekMillis = todayMillis - (7 * 24 * 60 * 60 * 1000);
+                    let gamesWithNews = gamesNews.filter(async game => {
+                        await getSteamNews({appid: game.steamAppId}).then(steamNews => {
+                            if (!isArrayEmpty(steamNews)) {
+                                return steamNews[0].date * 1000 <= todayMillis && steamNews[0].date * 1000 >= lastWeekMillis;
+                            }
+                        })
+                    })
+                    gamesWithNews.forEach(game => {
+                        createNotification("GamePortal - Novità in arrivo!", "Ci sono novità su " + game.gameName + ", visualizzale nel tab News!");
+                    })
+
+                })
+            }
+        } else {
+            console.warn("Notification permission denied")
+        }
+    }
 
     function renderPage() {
         switch (page) {
