@@ -6,9 +6,6 @@ import {VitePWA} from "vite-plugin-pwa";
 export default defineConfig({
     plugins: [react(), VitePWA({
         registerType: "autoUpdate",
-        devOptions: {
-            enabled: false //Re-enable later
-        },
         manifest: {
             name: "GamePortal - Un portale nel mondo dei videogiochi",
             short_name: "GamePortal",
@@ -29,7 +26,61 @@ export default defineConfig({
                     type: "image/png",
                 },
             ],
+            lang: "it-IT",
+            orientation: "portrait"
         },
+        workbox: {
+            runtimeCaching: [
+                {
+                    urlPattern: ({request}) => request.destination === "document",
+                    handler: "NetworkFirst",
+                    options: {
+                        cacheName: "document-cache",
+                        expiration: {
+                            maxEntries: 20,
+                            maxAgeSeconds: 60 * 60 * 8,
+                        },
+                        networkTimeoutSeconds: 5
+                    }
+                },
+                {
+                    urlPattern: ({request}) => request.destination === "style"
+                        || request.destination === "script" || request.destination === "worker",
+                    handler: "CacheFirst",
+                    options: {
+                        cacheName: "static-cache",
+                        expiration: {
+                            maxEntries: 50,
+                            maxAgeSeconds: 60 * 60 * 24,
+                        }
+                    }
+                },
+                {
+                    urlPattern: ({url}) => url.pathname.startsWith("/steam")
+                        || url.pathname.startsWith("/store") || url.pathname.startsWith("/steamCommunity")
+                        || url.pathname.startsWith("/partnerSteam"),
+                    handler: "StaleWhileRevalidate",
+                    options: {
+                        cacheName: "steam-cache",
+                        expiration: {
+                            maxEntries: 3000,
+                            maxAgeSeconds: 60 * 5,
+                        }
+                    }
+                },
+                {
+                    urlPattern: ({url}) => url.pathname.startsWith("/rawg"),
+                    handler: "StaleWhileRevalidate",
+                    options: {
+                        cacheName: "rawg-cache",
+                        expiration: {
+                            maxEntries: 50,
+                            maxAgeSeconds: 60 * 5,
+                        }
+                    }
+                }
+            ]
+        }
     }),
     ],
     server: {
