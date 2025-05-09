@@ -108,8 +108,7 @@ export default function SignIn({setLoggedIn, setUserDb}) {
                                        autoComplete={"new-password"}/>
                                 <label htmlFor="password">Conferma password</label>
                             </div>
-                        </Row>
-                        : //TODO password dimenticata
+                        </Row> :
                         null}
                     <Row className={"d-flex justify-content-center"}>
                         <Col md={4} offset-md={4}>
